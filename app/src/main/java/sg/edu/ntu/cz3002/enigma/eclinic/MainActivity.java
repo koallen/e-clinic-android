@@ -13,8 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // get device token for Firebase
-        String deviceToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d("TOKEN", deviceToken);
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("LA", token);
     }
 }
