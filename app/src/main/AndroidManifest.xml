@@ -24,14 +24,14 @@
             <!--</intent-filter>-->
         <!--</service>-->
         <!--&lt;!&ndash; [ END firebase_service ] &ndash;&gt;-->
-        <!--&lt;!&ndash; [ START firebase_iid_service ] &ndash;&gt;-->
-        <!--<service-->
-            <!--android:name=".MyFirebaseInstanceIDService">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
-            <!--</intent-filter>-->
-        <!--</service>-->
-        <!--&lt;!&ndash; [ END firebase_iid_service ] &ndash;&gt;-->
+        <!-- [ START firebase_iid_service ] -->
+        <service
+            android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- [ END firebase_iid_service ] -->
     </application>
 
 </manifest>
