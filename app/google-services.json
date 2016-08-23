@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "518103319607",
+    "firebase_url": "https://e-clinic-11762.firebaseio.com",
+    "project_id": "e-clinic-11762",
+    "storage_bucket": "e-clinic-11762.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518103319607:android:c7e21f014d175a53",
+        "android_client_info": {
+          "package_name": "sg.edu.ntu.cz3002.enigma.eclinic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "518103319607-19r9bcaoh0j8r5m8vm5lg8nb8ael8s2t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sg.edu.ntu.cz3002.enigma.eclinic",
+            "certificate_hash": "F4002498A01558AE4DB1208AF00C0E1DFBC6B646"
+          }
+        },
+        {
+          "client_id": "518103319607-3v4hiumisca34b5cshq1lic2m8fc94ts.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sg.edu.ntu.cz3002.enigma.eclinic",
+            "certificate_hash": "C51BC98D657EB60CA02130BAC85E123219E26A42"
+          }
+        },
+        {
+          "client_id": "518103319607-dh5edo479a3arho75ik28l4usap06khv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB998BK_eJnwQy6zcLgscA3ALCZwJF6xjw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "518103319607-dh5edo479a3arho75ik28l4usap06khv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
