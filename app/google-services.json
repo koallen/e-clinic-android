@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "518103319607-14earpu4p3bs8tp9gao0jv35h2hkavdk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sg.edu.ntu.cz3002.enigma.eclinic",
+            "certificate_hash": "5E5B60FA8D842F173A2D0BBA7B4FD4AE62DF761C"
+          }
+        },
+        {
+          "client_id": "518103319607-s4qg4iv9i3qgbm7o8hrsugodgj0ifu25.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sg.edu.ntu.cz3002.enigma.eclinic",
+            "certificate_hash": "B13A786C98BE1880A93B6F17F6361CB9A988E163"
+          }
+        },
+        {
           "client_id": "518103319607-19r9bcaoh0j8r5m8vm5lg8nb8ael8s2t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
