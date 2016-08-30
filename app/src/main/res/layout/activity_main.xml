@@ -42,9 +42,12 @@ tools:context="sg.edu.ntu.cz3002.enigma.eclinic.MainActivity">
         android:layout_gravity="center_horizontal"
         android:inputType="text"/>
 </LinearLayout>
-<Button
+<ImageButtonButton
+    android:src="@drawable/"
     android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:text="Sign in"/>
+    android:text="Sign in"
+    android:background="#"
+    />
 </LinearLayout>
