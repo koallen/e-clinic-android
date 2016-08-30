@@ -14,8 +14,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:theme="@style/AppTheme_Dark_Dialog" />
-        <activity android:name=".SignupActivity" android:theme="@style/AppTheme_Dark_Dialog" />
+        <activity android:name=".LoginActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity android:name=".SignupActivity" android:theme="@style/AppTheme.Dark"/>
 
         <!--&lt;!&ndash; [ START firebase_service ] &ndash;&gt;-->
         <!--<service-->
