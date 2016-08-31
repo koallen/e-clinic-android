@@ -52,7 +52,7 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
     }
 
     @OnClick(R.id.btn_login)
-    public void setLoginButtonListener(View view) {
+    public void onLoginButtonClicked(View view) {
         Log.d(TAG, "Login");
 
         // show a progress dialog
