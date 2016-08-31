@@ -1,4 +1,4 @@
-package sg.edu.ntu.cz3002.enigma.eclinic;
+package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import sg.edu.ntu.cz3002.enigma.eclinic.R;
 
 /**
  * Created by HuaBa on 30/08/16.

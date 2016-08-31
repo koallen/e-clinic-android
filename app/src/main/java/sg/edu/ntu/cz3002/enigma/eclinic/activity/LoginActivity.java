@@ -1,8 +1,9 @@
-package sg.edu.ntu.cz3002.enigma.eclinic;
+package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,14 +12,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.AppCompatButton;
 
+import com.hannesdorfmann.mosby.mvp.MvpActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import sg.edu.ntu.cz3002.enigma.eclinic.R;
+import sg.edu.ntu.cz3002.enigma.eclinic.presenter.LoginPresenter;
+import sg.edu.ntu.cz3002.enigma.eclinic.view.LoginView;
 
 /**
  * Created by HuaBa on 30/08/16.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implements LoginView {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
@@ -30,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     AppCompatButton _loginButton;
     @BindView(R.id.link_signup)
     TextView _signupLink;
+    ProgressDialog _progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,9 +45,25 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    @NonNull
+    @Override
+    public LoginPresenter createPresenter() {
+        return new LoginPresenter();
+    }
+
     @OnClick(R.id.btn_login)
     public void setLoginButtonListener(View view) {
-        login();
+        Log.d(TAG, "Login");
+
+        // show a progress dialog
+        _progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
+        _progressDialog.setIndeterminate(true);
+        _progressDialog.setMessage("Authenticating...");
+        _progressDialog.show();
+
+        String username = _emailText.getText().toString();
+        String password = _passwordText.getText().toString();
+        presenter.authenticate(username, password);
     }
 
     @OnClick(R.id.link_signup)
@@ -48,38 +71,6 @@ public class LoginActivity extends AppCompatActivity {
         // Start the Signup activity
         Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
         startActivityForResult(intent, REQUEST_SIGNUP);
-    }
-
-    public void login() {
-        Log.d(TAG, "Login");
-
-        if (!validate()) {
-            onLoginFailed();
-            return;
-        }
-
-        _loginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
-
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        // TODO: Implement your own authentication logic here.
-        if(email != null && password != null) {
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            // On complete call either onLoginSuccess or onLoginFailed
-                            onLoginSuccess();
-                            // onLoginFailed();
-                            progressDialog.dismiss();
-                        }
-                    }, 3000);
-        }
     }
 
     @Override
@@ -132,5 +123,21 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    @Override
+    public void goToMainUi() {
+        _progressDialog.dismiss();
+
+        Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
+
+//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//        startActivity(intent);
+    }
+
+    @Override
+    public void showError(String message) {
+        _progressDialog.dismiss();
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
     }
 }

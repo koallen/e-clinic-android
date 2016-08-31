@@ -1,4 +1,4 @@
-package sg.edu.ntu.cz3002.enigma.eclinic;
+package sg.edu.ntu.cz3002.enigma.eclinic.service;
 
 import android.util.Log;
 
