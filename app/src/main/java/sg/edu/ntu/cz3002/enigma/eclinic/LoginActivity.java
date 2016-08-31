@@ -13,6 +13,7 @@ import android.support.v7.widget.AppCompatButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by HuaBa on 30/08/16.
@@ -35,22 +36,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+    }
 
-        _loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "logging in");
-            }
-        });
+    @OnClick(R.id.btn_login)
+    public void setLoginButtonListener(View view) {
+        login();
+    }
 
-        _signupLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
-            }
-        });
+    @OnClick(R.id.link_signup)
+    public void setSignupLinkListener(View view) {
+        // Start the Signup activity
+        Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+        startActivityForResult(intent, REQUEST_SIGNUP);
     }
 
     public void login() {
