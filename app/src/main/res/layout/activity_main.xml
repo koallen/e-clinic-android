@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -7,33 +8,8 @@
         android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomBar">
-
-        <!-- fragment to display reminders -->
-        <fragment
-            android:name="sg.edu.ntu.cz3002.enigma.eclinic.fragment.ReminderFragment"
-            android:id="@+id/reminders_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </fragment>
-
-        <!-- fragment to display chats -->
-        <fragment
-            android:name="sg.edu.ntu.cz3002.enigma.eclinic.fragment.ChatFragment"
-            android:id="@+id/chats_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </fragment>
-
-        <!-- fragment to display settings -->
-        <fragment
-            android:name="sg.edu.ntu.cz3002.enigma.eclinic.fragment.SettingFragment"
-            android:id="@+id/settings_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </fragment>
+        android:layout_above="@+id/bottomBar"
+        tools:context=".activity.MainActivity">
 
     </FrameLayout>
 

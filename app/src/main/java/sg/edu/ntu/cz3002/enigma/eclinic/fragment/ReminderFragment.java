@@ -35,4 +35,15 @@ public class ReminderFragment extends Fragment {
         });
         return view;
     }
+
+    public static ReminderFragment newInstance(int index) {
+        ReminderFragment f = new ReminderFragment();
+
+        // Supply index input as an argument.
+        Bundle args = new Bundle();
+        args.putInt("index", index);
+        f.setArguments(args);
+
+        return f;
+    }
 }
