@@ -48,7 +48,7 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
     @NonNull
     @Override
     public LoginPresenter createPresenter() {
-        return new LoginPresenter();
+        return new LoginPresenter(this);
     }
 
     @OnClick(R.id.btn_login)
@@ -67,7 +67,7 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
     }
 
     @OnClick(R.id.link_signup)
-    public void setSignupLinkListener(View view) {
+    public void onSignupLinkClicked(View view) {
         // Start the Signup activity
         Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
         startActivityForResult(intent, REQUEST_SIGNUP);
@@ -89,17 +89,6 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
-    }
-
-    public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
-        finish();
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        _loginButton.setEnabled(true);
     }
 
     public boolean validate() {
@@ -129,10 +118,10 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
     public void goToMainUi() {
         _progressDialog.dismiss();
 
-        Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
 
-//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

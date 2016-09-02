@@ -15,6 +15,5 @@ public interface ApiService {
             "Content-Type: application/json"
     })
     @POST("auth-tokens/")
-    // TODO: change to Token model
-    Observable<ResponseBody> authenticate(@Body User user);
+    Observable<AuthToken> authenticate(@Body User user);
 }

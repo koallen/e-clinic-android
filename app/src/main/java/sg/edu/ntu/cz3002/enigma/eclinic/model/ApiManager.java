@@ -13,7 +13,7 @@ public class ApiManager {
     private static ApiManager ourInstance = new ApiManager();
     private Retrofit _retrofit;
     private ApiService _apiService;
-    private static final String _url = "http://192.168.0.112:8000/api/";
+    private static final String _url = "http://10.27.221.138:8000/api/";
 
     public static ApiManager getInstance() {
         return ourInstance;
@@ -28,8 +28,7 @@ public class ApiManager {
         _apiService = _retrofit.create(ApiService.class);
     }
 
-    // TODO: change to Token model
-    public Observable<ResponseBody> authenticate(String username, String password) {
+    public Observable<AuthToken> authenticate(String username, String password) {
         return _apiService.authenticate(new User(username, password));
     }
 }
