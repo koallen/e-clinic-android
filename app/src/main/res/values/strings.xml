@@ -6,4 +6,7 @@
     <string name="login_button_label">Login</string>
     <string name="login_text">Already a member? Login</string>
     <string name="signup_button_label">Create account</string>
+    <string name="reminders_bottombar_label">Reminders</string>
+    <string name="chats_bottombar_label">Chats</string>
+    <string name="settings_bottombar_label">Settings</string>
 </resources>

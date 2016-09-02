@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/reminders_button"
+        icon="@drawable/ic_reminders"
+        title="Reminders" />
+    <tab
+        id="@+id/chats_button"
+        icon="@drawable/ic_chats"
+        title="Chats" />
+    <tab
+        id="@+id/settings_button"
+        icon="@drawable/ic_settings"
+        title="Settings" />
+</tabs>
