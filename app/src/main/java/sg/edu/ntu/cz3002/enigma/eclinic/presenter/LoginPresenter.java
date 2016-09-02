@@ -17,7 +17,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.model.AuthToken;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.LoginView;
 
 /**
- * Created by koAllen on 8/31/2016.
+ * Login presenter
  */
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
     private static final String TAG = "LoginPresenter";
@@ -47,10 +47,10 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                     @Override
                     public void onNext(AuthToken authToken) {
                         // save the auth token to shared preferences
-                        SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, _context.MODE_PRIVATE);
+                        SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString(Value.authTokenPreferenceName, authToken.getToken());
-                        editor.commit();
+                        editor.apply();
 
                         if (isViewAttached()) {
                             getView().goToMainUi();

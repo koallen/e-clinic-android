@@ -22,20 +22,16 @@ import sg.edu.ntu.cz3002.enigma.eclinic.presenter.LoginPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.LoginView;
 
 /**
- * Created by HuaBa on 30/08/16.
+ * Login activity
  */
 public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implements LoginView {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @BindView(R.id.input_email)
-    TextInputEditText _emailText;
-    @BindView(R.id.input_password)
-    TextInputEditText _passwordText;
-    @BindView(R.id.btn_login)
-    AppCompatButton _loginButton;
-    @BindView(R.id.link_signup)
-    TextView _signupLink;
+    @BindView(R.id.username_input_login) TextInputEditText _usernameText;
+    @BindView(R.id.password_input_login) TextInputEditText _passwordText;
+    @BindView(R.id.btn_login) AppCompatButton _loginButton;
+    @BindView(R.id.link_signup) TextView _signupLink;
     ProgressDialog _progressDialog;
 
     @Override
@@ -53,7 +49,7 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
 
     @OnClick(R.id.btn_login)
     public void onLoginButtonClicked(View view) {
-        Log.d(TAG, "Login");
+        Log.d(TAG, "Login clicked");
 
         // show a progress dialog
         _progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
@@ -61,7 +57,7 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
         _progressDialog.setMessage("Authenticating...");
         _progressDialog.show();
 
-        String username = _emailText.getText().toString();
+        String username = _usernameText.getText().toString();
         String password = _passwordText.getText().toString();
         presenter.authenticate(username, password);
     }
@@ -94,14 +90,14 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
     public boolean validate() {
         boolean valid = true;
 
-        String email = _emailText.getText().toString();
+        String email = _usernameText.getText().toString();
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _usernameText.setError("enter a valid email address");
             valid = false;
         } else {
-            _emailText.setError(null);
+            _usernameText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
@@ -117,8 +113,6 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
     @Override
     public void goToMainUi() {
         _progressDialog.dismiss();
-
-//        Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);

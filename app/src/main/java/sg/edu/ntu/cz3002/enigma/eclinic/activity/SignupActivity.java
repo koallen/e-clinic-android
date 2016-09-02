@@ -2,6 +2,7 @@ package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,14 +16,13 @@ import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
 
 /**
- * Created by HuaBa on 30/08/16.
+ * Signup activity
  */
     public class SignupActivity extends AppCompatActivity {
         private static final String TAG = "SignupActivity";
 
-        @BindView(R.id.input_name) EditText _nameText;
-        @BindView(R.id.input_email) EditText _emailText;
-        @BindView(R.id.input_password) EditText _passwordText;
+        @BindView(R.id.username_input_signup) TextInputEditText _usernameText;
+        @BindView(R.id.password_input_signup) TextInputEditText _passwordText;
         @BindView(R.id.btn_signup) Button _signupButton;
         @BindView(R.id.link_login) TextView _loginLink;
 
@@ -63,8 +63,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.R;
             progressDialog.setMessage("Creating Account...");
             progressDialog.show();
 
-            String name = _nameText.getText().toString();
-            String email = _emailText.getText().toString();
+            String username = _usernameText.getText().toString();
             String password = _passwordText.getText().toString();
 
             // TODO: Implement your own signup logic here.
@@ -97,23 +96,22 @@ import sg.edu.ntu.cz3002.enigma.eclinic.R;
         public boolean validate() {
             boolean valid = true;
 
-            String name = _nameText.getText().toString();
-            String email = _emailText.getText().toString();
+            String username = _usernameText.getText().toString();
             String password = _passwordText.getText().toString();
 
-            if (name.isEmpty() || name.length() < 3) {
-                _nameText.setError("at least 3 characters");
-                valid = false;
-            } else {
-                _nameText.setError(null);
-            }
-
-            if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                _emailText.setError("enter a valid email address");
-                valid = false;
-            } else {
-                _emailText.setError(null);
-            }
+//            if (name.isEmpty() || name.length() < 3) {
+//                _nameText.setError("at least 3 characters");
+//                valid = false;
+//            } else {
+//                _nameText.setError(null);
+//            }
+//
+//            if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+//                _emailText.setError("enter a valid email address");
+//                valid = false;
+//            } else {
+//                _emailText.setError(null);
+//            }
 
             if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
                 _passwordText.setError("between 4 and 10 alphanumeric characters");

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">e-Clinic</string>
+    <string name="username_input_label">Username</string>
+    <string name="password_input_label">Password</string>
+    <string name="signup_text">No account yet? Create one</string>
+    <string name="login_button_label">Login</string>
+    <string name="login_text">Already a member? Login</string>
+    <string name="signup_button_label">Create account</string>
 </resources>
