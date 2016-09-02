@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomBar"
         android:gravity="center"
-        android:text="Hi mom!" />
+        android:text="testing" />
 
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottomBar"
