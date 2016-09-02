@@ -7,6 +7,7 @@ import android.util.Log;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,7 +21,10 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.LoginView;
  * Login presenter
  */
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
+
     private static final String TAG = "LoginPresenter";
+    private static final String HTTP_ERROR_MESSAGE = "Wrong credentials";
+    private static final String NETWORK_ERROR_MESSAGE = "Network error";
     private Context _context;
 
     public LoginPresenter(Context context) {
@@ -28,7 +32,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
     }
 
     public void authenticate(String username, String password) {
-        Log.d(TAG, "Logging in");
+        Log.d(TAG, "Connecting to remote server for authentication");
         Observable<AuthToken> response = ApiManager.getInstance().authenticate(username, password);
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -41,11 +45,23 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        // TODO: handle HTTP 400 BAD REQUEST
+                        if (e instanceof HttpException) {
+                            Log.d(TAG, HTTP_ERROR_MESSAGE);
+                            if (isViewAttached()) {
+                                getView().showError(HTTP_ERROR_MESSAGE);
+                            }
+                        } else {
+                            Log.d(TAG, NETWORK_ERROR_MESSAGE);
+                            if (isViewAttached()) {
+                                getView().showError(NETWORK_ERROR_MESSAGE);
+                            }
+                        }
+
                     }
 
                     @Override
                     public void onNext(AuthToken authToken) {
+                        Log.d(TAG, "Authentication successful");
                         // save the auth token to shared preferences
                         SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();

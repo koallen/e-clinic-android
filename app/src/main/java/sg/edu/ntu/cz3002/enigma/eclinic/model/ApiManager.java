@@ -1,19 +1,19 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
-import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
 /**
- * Created by koAllen on 9/1/2016.
+ * Api manager
  */
 public class ApiManager {
+
     private static ApiManager ourInstance = new ApiManager();
     private Retrofit _retrofit;
     private ApiService _apiService;
-    private static final String _url = "http://10.27.221.138:8000/api/";
+    private static final String _url = "http://192.168.0.112:8000/api/";
 
     public static ApiManager getInstance() {
         return ourInstance;

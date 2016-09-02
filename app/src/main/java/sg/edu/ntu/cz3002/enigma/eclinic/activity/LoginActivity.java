@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.LoginView;
  * Login activity
  */
 public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implements LoginView {
+
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
@@ -116,6 +116,7 @@ public class LoginActivity extends MvpActivity<LoginView, LoginPresenter> implem
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
+        this.finish();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
 /**
- * Created by koAllen on 9/1/2016.
+ * User model
  */
 public class User {
     private String username;
