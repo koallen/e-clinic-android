@@ -36,6 +36,7 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.roughike:bottom-bar:2.0.2'
+    compile 'com.ncapdevi:frag-nav:1.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'

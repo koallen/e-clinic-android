@@ -4,23 +4,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.ncapdevi.fragnav.FragNavController;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
 import sg.edu.ntu.cz3002.enigma.eclinic.Value;
+import sg.edu.ntu.cz3002.enigma.eclinic.fragment.ChatFragment;
+import sg.edu.ntu.cz3002.enigma.eclinic.fragment.ReminderFragment;
+import sg.edu.ntu.cz3002.enigma.eclinic.fragment.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     @BindView(R.id.bottomBar) BottomBar _bottombar;
+    FragNavController _fragNavController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
             ButterKnife.bind(this);
             // set up the UI components
+            setFragments();
             setBottomBar();
         } else {
             // go to LoginActivity
@@ -49,17 +58,27 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
                     case R.id.reminders_button:
-                        Toast.makeText(MainActivity.this, "Reminders", Toast.LENGTH_SHORT).show();
+                        _fragNavController.switchTab(FragNavController.TAB1);
                         break;
                     case R.id.chats_button:
-                        Toast.makeText(MainActivity.this, "Chats", Toast.LENGTH_SHORT).show();
+                        _fragNavController.switchTab(FragNavController.TAB2);
                         break;
                     case R.id.settings_button:
-                        Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                        _fragNavController.switchTab(FragNavController.TAB3);
                         break;
                 }
             }
         });
+    }
+
+    public void setFragments() {
+        List<Fragment> fragments = new ArrayList<>(3);
+
+        fragments.add(new ReminderFragment());
+        fragments.add(new ChatFragment());
+        fragments.add(new SettingFragment());
+
+        _fragNavController = new FragNavController(getSupportFragmentManager(), R.id.contentContainer, fragments);
     }
 
     @Override
