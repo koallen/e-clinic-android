@@ -1,5 +1,7 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.presenter;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
@@ -9,22 +11,29 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.ApiManager;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.AuthToken;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.LoginView;
 
 /**
  * Created by koAllen on 8/31/2016.
  */
 public class LoginPresenter extends MvpBasePresenter<LoginView> {
-    public static final String TAG = "LoginPresenter";
+    private static final String TAG = "LoginPresenter";
+    private Context _context;
+
+    public LoginPresenter(Context context) {
+        _context = context;
+    }
 
     public void authenticate(String username, String password) {
         Log.d(TAG, "Logging in");
-        Observable<ResponseBody> response = ApiManager.getInstance().authenticate(username, password);
+        Observable<AuthToken> response = ApiManager.getInstance().authenticate(username, password);
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<ResponseBody>() {
+                .subscribe(new Subscriber<AuthToken>() {
                     @Override
                     public void onCompleted() {
 
@@ -32,11 +41,17 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        // TODO: handle HTTP 400 BAD REQUEST
                     }
 
                     @Override
-                    public void onNext(ResponseBody responseBody) {
+                    public void onNext(AuthToken authToken) {
+                        // save the auth token to shared preferences
+                        SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, _context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString(Value.authTokenPreferenceName, authToken.getToken());
+                        editor.commit();
+
                         if (isViewAttached()) {
                             getView().goToMainUi();
                         }
