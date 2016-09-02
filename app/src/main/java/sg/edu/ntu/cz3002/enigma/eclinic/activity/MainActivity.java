@@ -1,34 +1,43 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabReselectListener;
+import com.roughike.bottombar.OnTabSelectListener;
 
-import sg.edu.ntu.cz3002.enigma.eclinic.R;
-import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "MainActivity";
+public class MainActivity extends Activity {
+    private TextView messageView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // check whether user logged in
-        SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, this.MODE_PRIVATE);
-        if (preferences.contains(Value.authTokenPreferenceName)) {
-            // continue on MainActivity
-            Log.d(TAG, "Auth token exists");
-            setContentView(R.layout.activity_main);
-        } else {
-            // go to LoginActivity
-            Log.d(TAG, "Auth token doesn't exist");
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
-    }
+        setContentView(R.layout.activity_three_tabs);
 
-    // TODO: make sure it doesn't go back to LoginActivity
+        messageView = (TextView) findViewById(R.id.messageView);
+
+        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                messageView.setText(TabMessage.get(tabId, false));
+            }
+        });
+
+        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
+            @Override
+            public void onTabReSelected(@IdRes int tabId) {
+                Toast.makeText(getApplicationContext(), TabMessage.get(tabId, true), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }
+
+
