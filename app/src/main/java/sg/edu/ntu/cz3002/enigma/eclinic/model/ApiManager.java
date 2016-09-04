@@ -13,7 +13,7 @@ public class ApiManager {
     private static ApiManager ourInstance = new ApiManager();
     private Retrofit _retrofit;
     private ApiService _apiService;
-    private static final String _url = "http://192.168.0.112:8000/api/";
+    private static final String _url = "http://10.27.221.138:8000/api/";
 
     public static ApiManager getInstance() {
         return ourInstance;
