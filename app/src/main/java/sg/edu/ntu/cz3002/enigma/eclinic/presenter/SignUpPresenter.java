@@ -3,41 +3,43 @@ package sg.edu.ntu.cz3002.enigma.eclinic.presenter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
-import okhttp3.ResponseBody;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import sg.edu.ntu.cz3002.enigma.eclinic.Value;
+import sg.edu.ntu.cz3002.enigma.eclinic.activity.SignupActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.ApiManager;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.AuthToken;
-import sg.edu.ntu.cz3002.enigma.eclinic.view.LoginView;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.User;
+import sg.edu.ntu.cz3002.enigma.eclinic.view.SignupView;
 
 /**
- * Login presenter
+ * Created by HuaBa on 12/09/16.
  */
-public class LoginPresenter extends MvpBasePresenter<LoginView> {
-
-    private static final String TAG = "LoginPresenter";
+public class SignupPresenter extends MvpBasePresenter<SignupView> {
+    private static final String TAG = "SignupPresenter";
     private static final String HTTP_ERROR_MESSAGE = "Wrong credentials";
     private static final String NETWORK_ERROR_MESSAGE = "Network error";
+
     private Context _context;
 
-    public LoginPresenter(Context context) {
+    public SignupPresenter(Context context) {
         _context = context;
     }
 
-    public void authenticate(String username, String password) {
-        Log.d(TAG, "Connecting to remote server for authentication");
-        Observable<AuthToken> response = ApiManager.getInstance().authenticate(username, password);
+    public void signup(String username, String password){
+        Log.d(TAG, "Connecting to remote server for sign up");
+        Observable<User> response = ApiManager.getInstance().signup(username, password);
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<AuthToken>() {
+                .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
 
@@ -60,26 +62,15 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                     }
 
                     @Override
-                    public void onNext(AuthToken authToken) {
-                        Log.d(TAG, "Authentication successful");
+                    public void onNext(User user) {
+                        Log.d(TAG, "Sign up successful");
                         // save the auth token to shared preferences
-                        SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString(Value.authTokenPreferenceName, authToken.getToken());
-                        editor.apply();
-
                         if (isViewAttached()) {
-                            getView().goToMainUi();
+                            getView().showMessage("Login Successful");
+                            getView().goToLoginUi();
                         }
                     }
                 });
-    }
-
-    public void detachView(boolean retainPresenterInstance){
-        super.detachView(retainPresenterInstance);
-        if (!retainPresenterInstance){
-//            cancelGreetingTaskIfRunning();
-        }
     }
 
 }

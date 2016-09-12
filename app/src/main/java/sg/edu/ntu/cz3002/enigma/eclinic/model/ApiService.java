@@ -15,4 +15,11 @@ public interface ApiService {
     })
     @POST("auth-tokens/")
     Observable<AuthToken> authenticate(@Body User user);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("users/")
+    Observable<User>  signup(@Body User user);
 }

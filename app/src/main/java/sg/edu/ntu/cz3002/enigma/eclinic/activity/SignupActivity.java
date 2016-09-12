@@ -1,29 +1,38 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hannesdorfmann.mosby.mvp.MvpActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
+import sg.edu.ntu.cz3002.enigma.eclinic.presenter.SignupPresenter;
+import sg.edu.ntu.cz3002.enigma.eclinic.view.SignupView;
+
 
 /**
  * Signup activity
  */
-    public class SignupActivity extends AppCompatActivity {
+    public class SignupActivity extends MvpActivity<SignupView, SignupPresenter> implements SignupView {
         private static final String TAG = "SignupActivity";
 
         @BindView(R.id.username_input_signup) TextInputEditText _usernameText;
         @BindView(R.id.password_input_signup) TextInputEditText _passwordText;
-        @BindView(R.id.btn_signup) Button _signupButton;
+        @BindView(R.id.btn_signup)
+        AppCompatButton _signupButton;
         @BindView(R.id.link_login) TextView _loginLink;
 
         @Override
@@ -31,21 +40,21 @@ import sg.edu.ntu.cz3002.enigma.eclinic.R;
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_signup);
             ButterKnife.bind(this);
+        }
 
-            _signupButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    signup();
-                }
-            });
+        @OnClick(R.id.btn_signup)
+        public void onSignupButtonClicked(View view){
+            signup();
+        }
 
-            _loginLink.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Finish the registration screen and return to the Login activity
-                    finish();
-                }
-            });
+        @OnClick(R.id.link_login)
+        public void onLoginLinkClicked(View view){
+            finish();
+        }
+        @NonNull
+        @Override
+        public SignupPresenter createPresenter() {
+            return new SignupPresenter(this);
         }
 
         public void signup() {
@@ -68,16 +77,9 @@ import sg.edu.ntu.cz3002.enigma.eclinic.R;
 
             // TODO: Implement your own signup logic here.
 
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            // On complete call either onSignupSuccess or onSignupFailed
-                            // depending on success
-                            onSignupSuccess();
-                            // onSignupFailed();
-                            progressDialog.dismiss();
-                        }
-                    }, 3000);
+            presenter.signup(username, password);
+            progressDialog.dismiss();
+
         }
 
 
@@ -121,6 +123,20 @@ import sg.edu.ntu.cz3002.enigma.eclinic.R;
             }
 
             return valid;
+        }
+
+        @Override
+        public void goToLoginUi(){
+            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+        @Override
+        public void showError(String message) {
+            Toast.makeText(SignupActivity.this, message, Toast.LENGTH_LONG).show();
+        }
+        @Override
+        public void showMessage(String message) {
+            Toast.makeText(SignupActivity.this, message, Toast.LENGTH_LONG).show();
         }
     }
 
