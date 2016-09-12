@@ -8,7 +8,7 @@ import rx.Observable;
 /**
  * Api manager
  */
-public class  ApiManager {
+public class ApiManager {
 
     private static ApiManager ourInstance = new ApiManager();
     private Retrofit _retrofit;
@@ -31,6 +31,12 @@ public class  ApiManager {
     public Observable<AuthToken> authenticate(String username, String password) {
         return _apiService.authenticate(new User(username, password));
     }
+
+    public Observable<AuthToken> getReservation(String patientName){
+        return _apiService.getReservation(patientName);
+    }
+
+
     public Observable<User> signup(String username, String password) {
         return _apiService.signup(new User(username, password));
     }
