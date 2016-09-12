@@ -31,4 +31,10 @@ public class ApiManager {
     public Observable<AuthToken> authenticate(String username, String password) {
         return _apiService.authenticate(new User(username, password));
     }
+
+    public Observable<AuthToken> getReservation(String patientName){
+        return _apiService.getReservation(patientName);
+    }
+
+
 }

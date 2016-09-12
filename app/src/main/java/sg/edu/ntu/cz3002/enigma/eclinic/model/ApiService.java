@@ -15,4 +15,6 @@ public interface ApiService {
     })
     @POST("auth-tokens/")
     Observable<AuthToken> authenticate(@Body User user);
+
+    Observable<AuthToken> getReservation(@Body String patientName);
 }
