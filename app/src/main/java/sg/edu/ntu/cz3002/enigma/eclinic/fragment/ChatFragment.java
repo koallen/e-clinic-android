@@ -1,5 +1,6 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
 
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.BinderThread;
 import android.support.annotation.NonNull;
@@ -29,9 +30,9 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
 public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implements ChatView{
 
     private static final String TAG = "ChatFragment";
-    private ArrayList arrayList;
-    private ChatArrayAdapter chatArrayAdapter;
-    private boolean side = false;
+    private ArrayList _arrayList;
+    private ChatArrayAdapter _chatArrayAdapter;
+    private boolean _side = false;
 
     @BindView(R.id.messageEditText) EditText _enterText;
     @BindView(R.id.msgListView) ListView _msgList;
@@ -60,7 +61,23 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
         });
 
         _msgList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        _msgList.setAdapter(_chatArrayAdapter);
+
+        _chatArrayAdapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                _msgList.setSelection(_chatArrayAdapter.getCount()-1);
+            }
+        });
         return view;
+    }
+
+    public boolean sendChatMessage(){
+        _chatArrayAdapter.add(new ChatMessage(_side, _enterText.getText().toString()));
+        _enterText.setText("");
+        _side = !_side;
+        return true;
     }
 
     public boolean sendMessage(){
