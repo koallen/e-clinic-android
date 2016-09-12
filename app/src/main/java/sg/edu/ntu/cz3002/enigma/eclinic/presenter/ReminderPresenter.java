@@ -13,7 +13,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import sg.edu.ntu.cz3002.enigma.eclinic.Value;
-import sg.edu.ntu.cz3002.enigma.eclinic.fragment.ReminderFragment;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.ApiManager;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.AuthToken;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ReminderView;
@@ -26,10 +25,10 @@ public class ReminderPresenter extends MvpBasePresenter<ReminderView>{
     private static final String TAG = "LoginPresenter";
     private static final String HTTP_ERROR_MESSAGE = "Wrong credentials";
     private static final String NETWORK_ERROR_MESSAGE = "Network error";
-    private Context _context;
 
-    public ReminderPresenter(Context context) {
-        _context = context;
+
+    public ReminderPresenter() {
+
     }
 
     public void getReservation(String patientName){

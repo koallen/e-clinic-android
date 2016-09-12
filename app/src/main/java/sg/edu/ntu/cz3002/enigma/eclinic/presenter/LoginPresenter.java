@@ -31,7 +31,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
         _context = context;
     }
 
-    public void authenticate(String username, String password) {
+    public void authenticate(final String username, final String password) {
         Log.d(TAG, "Connecting to remote server for authentication");
         Observable<AuthToken> response = ApiManager.getInstance().authenticate(username, password);
         response.subscribeOn(Schedulers.io())
@@ -66,6 +66,7 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                         SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString(Value.authTokenPreferenceName, authToken.getToken());
+                        editor.putString(Value.userNamePreferenceName, username);
                         editor.apply();
 
                         if (isViewAttached()) {
