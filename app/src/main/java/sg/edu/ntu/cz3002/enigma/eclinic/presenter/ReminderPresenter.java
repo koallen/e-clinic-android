@@ -28,6 +28,10 @@ public class ReminderPresenter extends MvpBasePresenter<ReminderView>{
     private static final String NETWORK_ERROR_MESSAGE = "Network error";
     private Context _context;
 
+    public ReminderPresenter(Context context) {
+        _context = context;
+    }
+
     public void getReservation(String patientName){
         Log.d(TAG, "Connecting to remote server for requesting reservation info");
         Observable<AuthToken> response = ApiManager.getInstance().getReservation(patientName);
