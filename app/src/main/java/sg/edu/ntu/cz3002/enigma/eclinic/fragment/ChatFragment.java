@@ -1,23 +1,77 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.annotation.BinderThread;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
+import com.hannesdorfmann.mosby.mvp.MvpFragment;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
+import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ChatPresenter;
+import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
 
 /**
  * Created by koAllen on 9/2/2016.
  */
-public class ChatFragment extends Fragment {
+public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implements ChatView{
 
     private static final String TAG = "ChatFragment";
+    private ArrayList arrayList;
+    private ChatArrayAdapter chatArrayAdapter;
+    private boolean side = false;
+
+    @BindView(R.id.messageEditText) EditText _enterText;
+    @BindView(R.id.msgListView) ListView _msgList;
+    @BindView(R.id.sendButton) Button _sendButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        ButterKnife.bind(view);
+
+        _enterText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (event.getAction() == KeyEvent.KEYCODE_ENTER))
+                    return sendMessage();
+                else
+                    return false;
+            }
+        });
+
+        _sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage();
+            }
+        });
+
+        _msgList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        return view;
+    }
+
+    public boolean sendMessage(){
+        return false;
+    }
+
+
+    @NonNull
+    @Override
+    public ChatPresenter createPresenter(){
+        return new ChatPresenter(this.getContext());
     }
 
     public static ChatFragment newInstance(int index) {
