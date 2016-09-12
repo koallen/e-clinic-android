@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
 
-    <TextView
-        android:layout_width="279dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:background="#e1e1e1"
+android:orientation="vertical" >
+
+<ListView
+    android:id="@+id/msgListView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/form"
+    android:divider="@null"
+    android:dividerHeight="0dp"
+    android:paddingBottom="10dp"
+    android:text="hello world" />
+
+<LinearLayout
+    android:id="@+id/form"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:background="#91f1f1f1"
+    android:orientation="horizontal"
+    android:paddingBottom="2dp" >
+
+
+    <EditText
+        android:id="@+id/messageEditText"
+        android:layout_width="252dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView2"
-        android:layout_weight="0.36" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/button1"
+        android:layout_toLeftOf="@+id/sendMessageButton"
+        android:layout_weight="0.72"
+        android:ems="10"
+        android:maxHeight="80dp" />
+
+    <ImageButton
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/send_btn"
+        android:text="d" />
+
 </LinearLayout>
+
+</RelativeLayout>
