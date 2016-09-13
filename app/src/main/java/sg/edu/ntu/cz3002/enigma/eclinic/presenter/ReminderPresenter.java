@@ -32,49 +32,49 @@ public class ReminderPresenter extends MvpBasePresenter<ReminderView>{
     }
 
     public void getReservation(String patientName){
-        Log.d(TAG, "Connecting to remote server for requesting reservation info");
-        Observable<AuthToken> response = ApiManager.getInstance().getReservation(patientName);
-        response.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<AuthToken>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof HttpException) {
-                            Log.d(TAG, HTTP_ERROR_MESSAGE);
-                            if (isViewAttached()) {
-                                getView().showError(HTTP_ERROR_MESSAGE);
-                            }
-
-                        } else {
-                            Log.d(TAG, NETWORK_ERROR_MESSAGE);
-                            if (isViewAttached()) {
-                                getView().showError(NETWORK_ERROR_MESSAGE);
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onNext(AuthToken authToken) {
-                        Log.d(TAG, "Get reservation info successful");
-                        //save the auth token to shared preferences
-                        SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString(Value.authTokenPreferenceName, authToken.getToken());
-                        editor.apply();
-
-                        if (isViewAttached()) {
-                            getView().goToMainUi();
-                        }
-
-                    }
-                });
+//        Log.d(TAG, "Connecting to remote server for requesting reservation info");
+//        Observable<AuthToken> response = ApiManager.getInstance().getReservation(patientName);
+//        response.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .unsubscribeOn(Schedulers.io())
+//                .subscribe(new Subscriber<AuthToken>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        if (e instanceof HttpException) {
+//                            Log.d(TAG, HTTP_ERROR_MESSAGE);
+//                            if (isViewAttached()) {
+//                                getView().showError(HTTP_ERROR_MESSAGE);
+//                            }
+//
+//                        } else {
+//                            Log.d(TAG, NETWORK_ERROR_MESSAGE);
+//                            if (isViewAttached()) {
+//                                getView().showError(NETWORK_ERROR_MESSAGE);
+//                            }
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(AuthToken authToken) {
+//                        Log.d(TAG, "Get reservation info successful");
+//                        //save the auth token to shared preferences
+//                        SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = preferences.edit();
+//                        editor.putString(Value.authTokenPreferenceName, authToken.getToken());
+//                        editor.apply();
+//
+//                        if (isViewAttached()) {
+//                            getView().goToMainUi();
+//                        }
+//
+//                    }
+//                });
     }
 
 

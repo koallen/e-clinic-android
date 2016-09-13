@@ -22,7 +22,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.ReminderView;
 /**
  * Created by koAllen on 9/2/2016.
  */
-public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresenter> implements ReminderView{
+public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresenter> implements ReminderView {
 
     private static final String TAG = "ReminderFragment";
     @BindView(R.id.reminders_swiperefresh) SwipeRefreshLayout _swipeRefreshLayout;
@@ -38,7 +38,7 @@ public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresente
                 Log.d(TAG, "Refreshing");
                 Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
 
-                presenter.getReservation();
+//                presenter.getReservation();
 
                 _swipeRefreshLayout.setRefreshing(false);
             }

@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
@@ -27,7 +27,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
 /**
  * Created by koAllen on 9/2/2016.
  */
-public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implements ChatView{
+public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implements ChatView {
 
     private static final String TAG = "ChatFragment";
     private ArrayList _arrayList;
@@ -39,12 +39,12 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
 
     @BindView(R.id.messageEditText) EditText _enterText;
     @BindView(R.id.msgListView) ListView _msgList;
-    @BindView(R.id.sendButton) Button _sendButton;
+    @BindView(R.id.sendButton) ImageButton _sendButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
 
         _enterText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -66,6 +66,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
         _msgList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         _msgList.setAdapter(_chatArrayAdapter);
 
+        _chatArrayAdapter = new ChatArrayAdapter(getContext(), R.id.msgListView);
         _chatArrayAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
             public void onChanged() {

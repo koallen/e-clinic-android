@@ -1,21 +1,19 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
 
 /**
  * Created by koAllen on 9/2/2016.
  */
-public class SettingFragment extends PreferenceFragment {
+public class SettingFragment extends PreferenceFragmentCompat {
     private static final String TAG = "ChatFragment";
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);
+    @Override
+    public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.preferences, rootKey);
     }
 
     public static SettingFragment newInstance(int index) {
