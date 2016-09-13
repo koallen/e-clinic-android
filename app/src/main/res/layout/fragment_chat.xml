@@ -25,20 +25,21 @@ android:orientation="vertical" >
     android:layout_alignParentLeft="true"
     android:background="#91f1f1f1"
     android:orientation="horizontal"
-    android:paddingBottom="2dp" >
+    android:paddingBottom="2dp"
+    android:weightSum="1">
 
 
     <EditText
         android:id="@+id/messageEditText"
         android:layout_width="252dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/button1"
         android:layout_toLeftOf="@+id/sendMessageButton"
-        android:layout_weight="0.72"
         android:ems="10"
-        android:maxHeight="80dp" />
+        android:maxHeight="80dp"
+        android:layout_weight="1.02" />
 
     <ImageButton
         android:id="@+id/sendButton"

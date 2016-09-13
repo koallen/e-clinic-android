@@ -32,7 +32,10 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     private static final String TAG = "ChatFragment";
     private ArrayList _arrayList;
     private ChatArrayAdapter _chatArrayAdapter;
-    private boolean _side = false;
+    private boolean _mine = true;
+    // hard code users
+    private String user1 = "patient";
+    private String user2 = "doctor";
 
     @BindView(R.id.messageEditText) EditText _enterText;
     @BindView(R.id.msgListView) ListView _msgList;
@@ -47,7 +50,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if((event.getAction() == KeyEvent.ACTION_DOWN) && (event.getAction() == KeyEvent.KEYCODE_ENTER))
-                    return sendMessage();
+                    return sendChatMessage();
                 else
                     return false;
             }
@@ -56,7 +59,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
         _sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage();
+                sendChatMessage();
             }
         });
 
@@ -74,14 +77,10 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     }
 
     public boolean sendChatMessage(){
-        _chatArrayAdapter.add(new ChatMessage(_side, _enterText.getText().toString()));
+        _chatArrayAdapter.add(new ChatMessage(_mine, _enterText.getText().toString(), user1, user2));
+        _chatArrayAdapter.notifyDataSetChanged();
         _enterText.setText("");
-        _side = !_side;
         return true;
-    }
-
-    public boolean sendMessage(){
-        return false;
     }
 
 
