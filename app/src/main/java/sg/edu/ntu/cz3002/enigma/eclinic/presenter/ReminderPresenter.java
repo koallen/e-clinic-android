@@ -31,7 +31,7 @@ public class ReminderPresenter extends MvpBasePresenter<ReminderView>{
 
     }
 
-    public void getReservation(String patientName){
+    public String[] getReservation(String patientName){
 //        Log.d(TAG, "Connecting to remote server for requesting reservation info");
 //        Observable<AuthToken> response = ApiManager.getInstance().getReservation(patientName);
 //        response.subscribeOn(Schedulers.io())
@@ -75,6 +75,7 @@ public class ReminderPresenter extends MvpBasePresenter<ReminderView>{
 //
 //                    }
 //                });
+        return new String[]{"1", "2", "3"};
     }
 
 
