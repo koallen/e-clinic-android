@@ -22,6 +22,8 @@
 
         <item name="colorButtonNormal">@color/primary_darker</item>
         <item name="android:colorButtonNormal">@color/primary_darker</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:clipToPadding">true</item>
     </style>
 
     <style name="AppTheme.TransNav" parent="AppTheme">
