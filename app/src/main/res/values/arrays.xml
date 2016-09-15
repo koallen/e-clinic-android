@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="entries_list_preference">
-        <item>Big Buck Bunny</item>
-        <item>Elephants Dream</item>
-        <item>Sintel</item>
-        <item>Tears of Steel</item>
+    <string-array name="Settings">
+        <item name="userName">User Name</item>
+        <item name="contacts">Contacts</item>
+        <item name="logOut">Log Out</item>
     </string-array>
     <string-array name="entryvalues_list_preference">
         <item>Big Buck Bunny</item>
