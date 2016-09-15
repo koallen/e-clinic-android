@@ -13,9 +13,6 @@ public class SettingPresenter extends MvpBasePresenter<SettingView> {
     private static final String TAG = "SettingPresenter";
     private Context _context;
 
-    String uri = "@drawable/myresource";  // where myresource (without the extension) is the file
-
-    int imageResource = getResources().getIdentifier(uri, null, getPackageName());
     public SettingPresenter(Context context){
         _context = context;
     }
