@@ -24,4 +24,10 @@ public class SettingPresenter extends MvpBasePresenter<SettingView> {
         editor.clear();
         editor.commit();
     }
+    public void detachView(boolean retainPresenterInstance){
+        super.detachView(retainPresenterInstance);
+        if (!retainPresenterInstance){
+//            cancelGreetingTaskIfRunning();
+        }
+    }
 }

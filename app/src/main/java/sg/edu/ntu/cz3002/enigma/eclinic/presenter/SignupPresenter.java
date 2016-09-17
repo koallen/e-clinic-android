@@ -64,7 +64,6 @@ public class SignupPresenter extends MvpBasePresenter<SignupView> {
                     @Override
                     public void onNext(User user) {
                         Log.d(TAG, "Sign up successful");
-                        // save the auth token to shared preferences
                         if (isViewAttached()) {
                             getView().showMessage("Sign in successful");
                             getView().goToLoginUi();
