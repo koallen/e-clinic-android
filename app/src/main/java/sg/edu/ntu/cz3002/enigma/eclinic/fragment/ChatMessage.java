@@ -14,4 +14,16 @@ public class ChatMessage {
         this._receiver = receiver;
         this._sender = sender;
     }
+    public void setMine(boolean mine){
+        this._mine = mine;
+    }
+    public boolean getMine(){
+        return this._mine;
+    }
+    public void setSender(String sender){
+        this._sender = sender;
+    }
+    public String getSender(){
+        return this._sender;
+    }
 }
