@@ -1,5 +1,9 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -15,6 +19,8 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
+import sg.edu.ntu.cz3002.enigma.eclinic.activity.LoginActivity;
+import sg.edu.ntu.cz3002.enigma.eclinic.activity.UserProfileActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.SettingPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.SettingView;
 
@@ -22,7 +28,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.SettingView;
  * Created by koAllen on 9/2/2016.
  */
 public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> implements SettingView {
-    private static final String TAG = "ChatFragment";
+    private static final String TAG = "SettingFragment";
     // This is the Adapter being used to display the list's data
     ArrayAdapter mAdapter;
 
@@ -33,7 +39,7 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.bind(this, view);
         SettingItem[] fromColumns = {
-                new SettingItem(R.drawable.ic_account_circle_black_24dp,"User Name"),
+                new SettingItem(R.drawable.ic_account_circle_black_24dp,"User Profile"),
                 new SettingItem(R.drawable.ic_exit_to_app_black_24dp,"Log Out")
         };
         mAdapter = new SettingArrayAdapter(this.getActivity(), R.layout.setting_list, fromColumns);
@@ -45,10 +51,15 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
                 // Toast.makeText(context,temparr.get(position),Toast.LENGTH_SHORT).show();
                 switch(position){
                     case 0:
-                        Toast.makeText(getActivity(), "0", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+                        startActivity(intent);
                         break;
                     case 1:
-                        Toast.makeText(getActivity(), "1", Toast.LENGTH_LONG).show();
+                        presenter.clear();
+                        Toast.makeText(getActivity(), "Sign Out Successful", Toast.LENGTH_LONG).show();
+                        Intent intent1 = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent1);
+                        getActivity().finish();
                         break;
                     default:
                         Toast.makeText(getActivity(), "haha", Toast.LENGTH_LONG).show();

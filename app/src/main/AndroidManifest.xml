@@ -17,6 +17,15 @@
         </activity>
         <activity android:name=".activity.LoginActivity" android:theme="@style/AppTheme.Dark"/>
         <activity android:name=".activity.SignupActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity
+            android:name=".activity.UserProfileActivity"
+            android:label="User Profile"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sg.edu.ntu.cz3002.enigma.eclinic.activity.MainActivity" />
+        </activity>
         <!-- [ START firebase_service ] -->
         <service
             android:name=".service.MyFirebaseMessagingService">
