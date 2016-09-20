@@ -1,5 +1,6 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -36,8 +37,11 @@ public class ApiManager {
         return _apiService.getReservation(patientName);
     }
 
-
     public Observable<User> signup(String username, String password) {
         return _apiService.signup(new User(username, password));
+    }
+
+    public Observable<ResponseBody> sendMessageToken(String username, String token) {
+        return _apiService.sendMessageToken(new MessageToken(token, username));
     }
 }

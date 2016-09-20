@@ -1,5 +1,6 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -24,4 +25,11 @@ public interface ApiService {
     })
     @POST("users/")
     Observable<User>  signup(@Body User user);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("tokens/")
+    Observable<ResponseBody> sendMessageToken(@Body MessageToken messageToken);
 }
