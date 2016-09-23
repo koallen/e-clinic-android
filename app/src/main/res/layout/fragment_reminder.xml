@@ -8,5 +8,20 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <!--<PreferenceScreen>-->
+    <!--<PreferenceCategory-->
+        <!--android:title="inline_preferences">-->
 
+        <!--<CheckBoxPreference-->
+            <!--android:key="checkbox_preference"-->
+            <!--android:title="title_checkbox_preference"-->
+            <!--android:summary="summary_checkbox_preference" />-->
+
+        <!--<CheckBoxPreference-->
+            <!--android:key="checkbox_preference"-->
+            <!--android:title="title_checkbox_preference"-->
+            <!--android:summary="summary_checkbox_preference" />-->
+
+    <!--</PreferenceCategory>-->
+    <!--</PreferenceScreen>-->
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <SwitchPreference
+            android:key="Enable_chat_message_notification"
+            android:summary="Enable this to receive chat message notification"
+            android:title="Enable Chat Message Notification"
+            android:defaultValue="true" />
+        <SwitchPreference
+            android:key="Enable_reminder_message_notification"
+            android:summary="Enable this to receive reminder message notification"
+            android:title="Enable Reminder Message Notification"
+            android:defaultValue="true" />
+</PreferenceScreen>

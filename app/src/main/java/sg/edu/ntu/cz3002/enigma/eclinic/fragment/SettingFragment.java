@@ -1,5 +1,6 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
 import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.LoginActivity;
+import sg.edu.ntu.cz3002.enigma.eclinic.activity.NotificationSettingActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.UserProfileActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.SettingPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.SettingView;
@@ -40,6 +42,7 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
         String username = prefs.getString(Value.userNamePreferenceName, "");
         SettingItem[] fromColumns = {
                 new SettingItem(R.drawable.ic_account_circle_black_24dp, username),
+                new SettingItem(R.drawable.ic_settings_black_24dp, "Notification Setting"),
                 new SettingItem(R.drawable.ic_exit_to_app_black_24dp,"Log Out")
         };
         mAdapter = new SettingArrayAdapter(this.getActivity(), R.layout.setting_list, fromColumns);
@@ -53,10 +56,14 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
                         startActivity(intent);
                         break;
                     case 1:
+                        Intent intent1 = new Intent(getActivity(), NotificationSettingActivity.class);
+                        startActivity(intent1);
+                        break;
+                    case 2:
                         presenter.clear();
                         Toast.makeText(getActivity(), "Sign Out Successful", Toast.LENGTH_LONG).show();
-                        Intent intent1 = new Intent(getActivity(), LoginActivity.class);
-                        startActivity(intent1);
+                        Intent intent2 = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent2);
                         getActivity().finish();
                         break;
                     default:
