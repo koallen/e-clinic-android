@@ -1,6 +1,5 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +22,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.LoginActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.NotificationSettingActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.UserProfileActivity;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.SettingItem;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.SettingPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.SettingView;
 
@@ -76,7 +76,7 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
     }
     @NonNull
     @Override
-    public SettingPresenter createPresenter(){
+    public SettingPresenter createPresenter() {
         return new SettingPresenter(this.getActivity());
     }
 

@@ -6,11 +6,13 @@
 
     <FrameLayout
         android:id="@+id/contentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_above="@+id/bottomBar"
-        android:paddingTop="80dip"
-        tools:context=".activity.MainActivity">
+        android:layout_marginTop="80dip"
+        tools:context=".activity.MainActivity"
+        >
+
     </FrameLayout>
 
     <com.roughike.bottombar.BottomBar
@@ -20,4 +22,5 @@
         android:layout_alignParentBottom="true"
         app:bb_tabXmlResource="@xml/bottombar_tabs"
         app:bb_behavior="underNavbar" />
+
 </RelativeLayout>

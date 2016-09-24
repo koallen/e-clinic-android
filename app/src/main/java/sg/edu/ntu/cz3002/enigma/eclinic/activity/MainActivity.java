@@ -26,6 +26,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.fragment.SettingFragment;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private int _currentTab = R.id.reminders_button;
 
     @BindView(R.id.bottomBar) BottomBar _bottombar;
     ReminderFragment _reminderFragment;
@@ -35,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-//        getActionBar().hide();
 
         // check whether user logged in
         SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
@@ -73,19 +71,9 @@ public class MainActivity extends AppCompatActivity {
         _bottombar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                Log.d(TAG, "tab selected");
-                switch (tabId) {
-                    case R.id.reminders_button:
-                        switchTo(_reminderFragment);
-                        break;
-                    case R.id.chats_button:
-                        // TODO refresh chat list
-                        switchTo(_chatFragment);
-                        break;
-                    case R.id.settings_button:
-                        switchTo(_settingFragment);
-                        break;
-                }
+                Log.d(TAG, "tab selected " + tabId);
+                changeTab(tabId);
+                _currentTab = _bottombar.getCurrentTabId();
             }
         });
     }
@@ -102,11 +90,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchTo(Fragment fragment) {
-        Log.d(TAG, "Going to switch fragment");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.contentContainer, fragment);
         transaction.commit();
-        Log.d(TAG, "Switched fragment");
+    }
+
+    private void changeTab(int tabId) {
+        switch (tabId) {
+            case R.id.reminders_button:
+                switchTo(_reminderFragment);
+                break;
+            case R.id.chats_button:
+                switchTo(_chatFragment);
+                break;
+            case R.id.settings_button:
+                switchTo(_settingFragment);
+                break;
+        }
     }
 }

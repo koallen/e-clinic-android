@@ -3,6 +3,8 @@ package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
@@ -35,5 +37,18 @@ public class UserProfileActivity extends MvpActivity<UserProfileView, UserProfil
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    public UserProfilePresenter createPresenter(){return new UserProfilePresenter(this);};
+
+    public UserProfilePresenter createPresenter() {
+        return new UserProfilePresenter(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
