@@ -4,16 +4,10 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Layout;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,7 +15,6 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +22,8 @@ import sg.edu.ntu.cz3002.enigma.eclinic.R;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.ChatActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ChatPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
+import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatListAdapter;
+import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatListElement;
 
 /**
  * chat fragement.
@@ -43,7 +38,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         ButterKnife.bind(this, view);
-        _chatList = new ArrayList<ChatListElement>();
+        _chatList = new ArrayList<>();
         _chatListAdapter = new ChatListAdapter(this.getContext(), _chatList);
         _chatListAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override

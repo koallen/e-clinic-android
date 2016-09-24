@@ -1,6 +1,7 @@
-package sg.edu.ntu.cz3002.enigma.eclinic.activity;
+package sg.edu.ntu.cz3002.enigma.eclinic.viewmodel;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +17,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by ZWL on 12/9/16.
+ * Chat adapter
  */
 public class ChatAdapter extends ArrayAdapter<ChatMessage> {
     private TextView _chatText;
-    private List<ChatMessage> _chatMessageList = new ArrayList<ChatMessage>();
+    private List<ChatMessage> _chatMessageList = new ArrayList<>();
     private Context _context;
-
-//    @Override
-//    public void add(ChatMessage obj){
-//        _chatMessageList.add(obj);
-//        super.add(obj);
-//    }
 
     // constructor
     public ChatAdapter(Context context, List<ChatMessage> list){
@@ -51,20 +46,21 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
         return position;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, @NonNull ViewGroup parent){
         ChatMessage _chatMessageObj = _chatMessageList.get(position);
 
-        if (_chatMessageObj._mine) {
+        if (_chatMessageObj.getMine()) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.chat_bubble, parent, false);
             TextView textView = (TextView) convertView.findViewById(R.id.txtMsg);
-            textView.setText(_chatMessageObj._message);
+            textView.setText(_chatMessageObj.getMessage());
 
         }
         else{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.chat_bubble, parent, false);
             TextView textView = (TextView) convertView.findViewById(R.id.txtMsg);
-            textView.setText(_chatMessageObj._message);
+            textView.setText(_chatMessageObj.getMessage());
         }
 
         TextView msgInfo = (TextView) convertView.findViewById(R.id.msgInfo);

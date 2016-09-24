@@ -30,6 +30,8 @@ import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ChatPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
+import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatAdapter;
+import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatMessage;
 
 /**
  * chat activity.
@@ -82,7 +84,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             }
         });
 
-        _msgArrayList = new ArrayList<ChatMessage>();
+        _msgArrayList = new ArrayList<>();
 
         _msgListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         _msgListView.setStackFromBottom(true);

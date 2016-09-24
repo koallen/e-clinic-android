@@ -1,7 +1,8 @@
-package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
+package sg.edu.ntu.cz3002.enigma.eclinic.viewmodel;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,12 @@ import sg.edu.ntu.cz3002.enigma.eclinic.R;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.SettingItem;
 
 /**
- * Created by HuaBa on 15/09/16.
+ * Setting array adapter
  */
 public class SettingArrayAdapter extends ArrayAdapter<SettingItem> {
-    Context context;
-    int layoutResourceId;
-    SettingItem[] settingItems = null;
+    private Context context;
+    private int layoutResourceId;
+    private SettingItem[] settingItems = null;
 
     public SettingArrayAdapter(Context context, int layoutResourceId, SettingItem[] data){
         super(context, layoutResourceId, data);
@@ -27,10 +28,11 @@ public class SettingArrayAdapter extends ArrayAdapter<SettingItem> {
         this.settingItems = data;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
-        SettingItemHolder holder = null;
+        SettingItemHolder holder;
 
         if(row == null)
         {
@@ -54,7 +56,7 @@ public class SettingArrayAdapter extends ArrayAdapter<SettingItem> {
 
         return row;
     }
-    static class SettingItemHolder
+    private static class SettingItemHolder
     {
         ImageView imgIcon;
         TextView txtTitle;

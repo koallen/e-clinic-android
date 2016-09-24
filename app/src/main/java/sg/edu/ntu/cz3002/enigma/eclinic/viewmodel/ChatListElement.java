@@ -1,7 +1,7 @@
-package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
+package sg.edu.ntu.cz3002.enigma.eclinic.viewmodel;
 
 /**
- * Created by ZWL on 20/9/16.
+ * ChatListElement
  */
 public class ChatListElement {
     private String _msgFrom;

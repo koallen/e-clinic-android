@@ -1,11 +1,14 @@
-package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
+package sg.edu.ntu.cz3002.enigma.eclinic.viewmodel;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import sg.edu.ntu.cz3002.enigma.eclinic.fragment.DoctorSignupFragment;
+import sg.edu.ntu.cz3002.enigma.eclinic.fragment.PatientSignupFragment;
+
 /**
- * Created by koallen on 24/9/16.
+ * Signup page adapter
  */
 public class SignupPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -17,11 +20,9 @@ public class SignupPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                PatientSignupFragment patientTab = new PatientSignupFragment();
-                return patientTab;
+                return new PatientSignupFragment();
             case 1:
-                DoctorSignupFragment doctorTab = new DoctorSignupFragment();
-                return doctorTab;
+                return new DoctorSignupFragment();
             default:
                 return null;
         }

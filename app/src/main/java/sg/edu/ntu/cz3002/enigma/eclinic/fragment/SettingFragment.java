@@ -25,9 +25,10 @@ import sg.edu.ntu.cz3002.enigma.eclinic.activity.UserProfileActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.SettingItem;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.SettingPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.SettingView;
+import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.SettingArrayAdapter;
 
 /**
- * Created by koAllen on 9/2/2016.
+ * Setting fragment
  */
 public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> implements SettingView {
     private static final String TAG = "SettingFragment";

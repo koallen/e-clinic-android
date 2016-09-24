@@ -1,30 +1,13 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.hannesdorfmann.mosby.mvp.MvpActivity;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
-import sg.edu.ntu.cz3002.enigma.eclinic.fragment.SignupPagerAdapter;
-import sg.edu.ntu.cz3002.enigma.eclinic.presenter.SignupPresenter;
-import sg.edu.ntu.cz3002.enigma.eclinic.view.SignupView;
+import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.SignupPagerAdapter;
 
 
 /**
