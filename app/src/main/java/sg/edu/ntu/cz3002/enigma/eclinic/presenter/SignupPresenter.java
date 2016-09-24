@@ -65,7 +65,7 @@ public class SignupPresenter extends MvpBasePresenter<SignupView> {
                     public void onNext(User user) {
                         Log.d(TAG, "Sign up successful");
                         if (isViewAttached()) {
-                            getView().showMessage("Sign in successful");
+                            getView().showMessage("Sign up successful");
                             getView().goToLoginUi();
                         }
                     }
