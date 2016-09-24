@@ -34,7 +34,7 @@ public interface ApiService {
             "Content-Type: application/json"
     })
     @POST("users/")
-    Observable<User>  signup(@Body User user);
+    Observable<User> signup(@Body User user);
 
     @Headers({
             "Accept: application/json",
@@ -49,8 +49,6 @@ public interface ApiService {
     })
     @GET("doctors/")
     Observable<List<Doctor>> testIdentity(@Query("user") String username);
-
-
 
 
     @Headers({

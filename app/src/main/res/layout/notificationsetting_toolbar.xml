@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
-    android:titleTextColor="@color/white"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?attr/actionBarSize"
-    app:navigationContentDescription="@string/abc_action_bar_up_description"
     android:background="?attr/colorPrimary"
-    app:navigationIcon="?attr/homeAsUpIndicator"
-    app:title="Notification Settings"
-    />
+    android:minHeight="?attr/actionBarSize"
+    android:titleTextColor="@color/white"
+    android:elevation="4dp"
+    app:navigationContentDescription="@string/abc_action_bar_up_description"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>

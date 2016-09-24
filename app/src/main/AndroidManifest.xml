@@ -11,26 +11,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.MainActivity" android:theme="@style/AppTheme.TransNav"
-            android:windowSoftInputMode="adjustPan"
-            android:launchMode="singleTop">
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.TransNav"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.LoginActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/AppTheme.Dark" />
 
-        <activity android:name=".activity.SignupActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity
+            android:name=".activity.SignupActivity"
+            android:theme="@style/AppTheme.Dark" />
 
-        <activity android:name=".activity.ChatActivity"
+        <activity
+            android:name=".activity.ChatActivity"
             android:label="Chat List"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activity.MainActivity">
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.UserProfileActivity"
@@ -39,14 +46,14 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.ntu.cz3002.enigma.eclinic.activity.MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
 
         <activity
             android:name=".activity.NotificationSettingActivity"
             android:label="NotificationSetting"
-            android:theme="@style/AppTheme.Light"
-            android:parentActivityName=".activity.MainActivity" >
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.Light">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -66,17 +73,16 @@
             </intent-filter>
         </activity>
         <!-- [ START firebase_service ] -->
-        <service
-            android:name=".service.MyFirebaseMessagingService">
+        <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <!-- [ END firebase_service ] -->
         <!-- [ START firebase_iid_service ] -->
         <service android:name=".service.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <!-- [ END firebase_iid_service ] -->

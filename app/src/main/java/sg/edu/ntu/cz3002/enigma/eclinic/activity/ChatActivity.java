@@ -1,6 +1,5 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,23 +7,26 @@ import android.content.IntentFilter;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
@@ -36,7 +38,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
  */
 public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implements ChatView {
 
-    private static final String TAG = "ChatFragment";
+    private static final String TAG = "ChatActivity";
     private List<ChatMessage> _msgArrayList;
     private ChatAdapter _chatAdapter;
     private boolean _mine = true;
@@ -60,12 +62,10 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         Intent intent = getIntent();
         setSender(intent.getStringExtra("sender"));
 
-        RelativeLayout root = (RelativeLayout) findViewById(R.id.chattingPage);
-        Toolbar bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.notificationsetting_toolbar, root, false);
-        root.addView(bar, 0); // insert at top
-        setActionBar(bar);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle("Notification Settings");
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_chat);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(sender);
 
         _enterText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -133,7 +133,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         }
     };
 
-    public void setSender(String s){
+    public void setSender(String s) {
         this.sender = s;
     }
 
@@ -145,6 +145,17 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
 
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "Menu item clicked");
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 
