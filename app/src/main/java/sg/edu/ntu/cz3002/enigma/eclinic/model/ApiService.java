@@ -2,6 +2,11 @@ package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
 import java.util.List;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -21,7 +26,8 @@ public interface ApiService {
     @POST("auth-tokens/")
     Observable<AuthToken> authenticate(@Body User user);
 
-    Observable<AuthToken> getReservation(@Body String patientName);
+    @GET("reservations/")
+    Observable<List<Reservation>> getReservation(@Query("patient") String patientName);
 
     @Headers({
             "Accept: application/json",
@@ -36,11 +42,4 @@ public interface ApiService {
     })
     @POST("tokens/")
     Observable<ResponseBody> sendMessageToken(@Body MessageToken messageToken);
-
-    @Headers({
-            "Accept: application/json",
-            "Content-Type: application/json"
-    })
-    @GET("doctors/")
-    Observable<List<Doctor>> testIdentity(@Query("user") String username);
 }

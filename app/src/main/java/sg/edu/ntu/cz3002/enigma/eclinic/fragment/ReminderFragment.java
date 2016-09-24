@@ -11,15 +11,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
 import sg.edu.ntu.cz3002.enigma.eclinic.Value;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.Reservation;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ReminderPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ReminderView;
 
@@ -41,14 +49,17 @@ public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresente
         ButterKnife.bind(this, view);
         SharedPreferences preference = this.getActivity().getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
         final String patientName = preference.getString(Value.userNamePreferenceName, "no name");
+
+        //presenter.getReservation(patientName);
+
         _swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Log.d(TAG, "Refreshing");
                 Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
 
-                reservationList= presenter.getReservation(patientName);
-
+                presenter.getReservation(patientName);
+//                presenter.getReservation("weifengzi2009");
 
                 _swipeRefreshLayout.setRefreshing(false);
 
@@ -56,14 +67,15 @@ public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresente
         });
 
 
-        String[] testArray = {"test1", "test2", "test3"};
-
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this.getActivity(), R.layout.reminder_list, testArray);
-        listView.setAdapter(listAdapter);
-
+//        String[] testArray = {"test1", "test2", "test3"};
+//
+//        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this.getActivity(), R.layout.reminder_list, testArray);
+//        listView.setAdapter(listAdapter);
+//
 
         return view;
     }
+
 
     @Override
     public ReminderPresenter createPresenter() {return new ReminderPresenter();}
@@ -78,4 +90,31 @@ public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresente
 
         return f;
     }
+
+    @Override
+    public void showError(String message){
+        Toast.makeText(this.getActivity(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showReminders(List<Reservation> reservations){
+        Log.d(TAG, "begin show reminders");
+        ArrayList<HashMap<String, String>> reservationsList;
+        reservationsList = new ArrayList<>();
+        for (Reservation r : reservations){
+            Log.d(TAG, "begin loop");
+            String name = r.getDoctor();
+            String datetime = r.getDateTime();
+            Log.d(TAG, name);
+            Log.d(TAG, datetime);
+            HashMap<String, String> res = new HashMap<>();
+            res.put("name", name);
+            res.put("datetime", datetime);
+            reservationsList.add(res);
+        }
+
+        ListAdapter adapter = new SimpleAdapter(this.getActivity(), reservationsList, R.layout.reminder_list, new String[]{"name", "datetime"}, new int[]{R.id.name, R.id.time});
+        listView.setAdapter(adapter);
+    }
+
 }
