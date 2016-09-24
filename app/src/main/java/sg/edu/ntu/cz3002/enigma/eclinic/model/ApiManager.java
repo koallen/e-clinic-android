@@ -1,5 +1,7 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -43,5 +45,9 @@ public class ApiManager {
 
     public Observable<ResponseBody> sendMessageToken(String username, String token) {
         return _apiService.sendMessageToken(new MessageToken(token, username));
+    }
+
+    public Observable<List<Doctor>> testIdentity(String username) {
+        return _apiService.testIdentity(username);
     }
 }

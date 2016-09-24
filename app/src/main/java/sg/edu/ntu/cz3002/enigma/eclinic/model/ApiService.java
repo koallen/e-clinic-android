@@ -1,9 +1,13 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -32,4 +36,11 @@ public interface ApiService {
     })
     @POST("tokens/")
     Observable<ResponseBody> sendMessageToken(@Body MessageToken messageToken);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @GET("doctors/")
+    Observable<List<Doctor>> testIdentity(@Query("user") String username);
 }

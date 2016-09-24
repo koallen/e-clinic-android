@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
@@ -15,6 +17,7 @@ import rx.schedulers.Schedulers;
 import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.ApiManager;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.AuthToken;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.Doctor;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.LoginView;
 
 /**
@@ -67,6 +70,51 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString(Value.authTokenPreferenceName, authToken.getToken());
                         editor.putString(Value.userNamePreferenceName, username);
+                        editor.apply();
+
+                        testIdentity(username);
+                    }
+                });
+    }
+
+    private void testIdentity(final String username) {
+        Observable<List<Doctor>> response = ApiManager.getInstance().testIdentity(username);
+        response.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<List<Doctor>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof HttpException) {
+                            Log.d(TAG, HTTP_ERROR_MESSAGE);
+                            if (isViewAttached()) {
+                                getView().showError(HTTP_ERROR_MESSAGE);
+                            }
+                        } else {
+                            Log.d(TAG, NETWORK_ERROR_MESSAGE);
+                            if (isViewAttached()) {
+                                getView().showError(NETWORK_ERROR_MESSAGE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(List<Doctor> doctors) {
+                        SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+
+                        if (doctors.isEmpty()) {
+                            Log.d(TAG, "Patient logging in");
+                            editor.putString(Value.userTypePreferenceName, "patient");
+                        } else {
+                            Log.d(TAG, "Doctor logging in");
+                            editor.putString(Value.userTypePreferenceName, "doctor");
+                        }
                         editor.apply();
 
                         if (isViewAttached()) {

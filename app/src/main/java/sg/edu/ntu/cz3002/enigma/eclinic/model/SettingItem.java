@@ -1,4 +1,4 @@
-package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
+package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
 /**
  * Created by HuaBa on 15/09/16.
