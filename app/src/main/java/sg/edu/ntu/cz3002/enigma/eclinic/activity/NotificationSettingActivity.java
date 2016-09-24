@@ -3,7 +3,9 @@ package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toolbar;
 
@@ -13,7 +15,9 @@ import sg.edu.ntu.cz3002.enigma.eclinic.R;
  * Created by HuaBa on 23/09/16.
  */
 public class NotificationSettingActivity extends PreferenceActivity {
+
     private static final String TAG = "NotificationSettingActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,4 +30,13 @@ public class NotificationSettingActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.preference);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

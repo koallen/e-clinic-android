@@ -1,5 +1,7 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
+import java.util.List;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
