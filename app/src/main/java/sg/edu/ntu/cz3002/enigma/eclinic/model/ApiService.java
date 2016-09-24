@@ -42,4 +42,11 @@ public interface ApiService {
     })
     @POST("tokens/")
     Observable<ResponseBody> sendMessageToken(@Body MessageToken messageToken);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @GET("doctors/")
+    Observable<List<Doctor>> testIdentity(@Query("user") String username);
 }
