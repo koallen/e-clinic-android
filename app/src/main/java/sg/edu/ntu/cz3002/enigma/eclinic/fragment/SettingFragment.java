@@ -76,7 +76,7 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
     }
     @NonNull
     @Override
-    public SettingPresenter createPresenter(){
+    public SettingPresenter createPresenter() {
         return new SettingPresenter(this.getActivity());
     }
 
