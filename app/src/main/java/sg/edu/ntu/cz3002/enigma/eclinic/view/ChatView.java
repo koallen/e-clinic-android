@@ -8,4 +8,5 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
  */
 public interface ChatView extends MvpView {
 //    void sendMessage();
+    void showError(String s);
 }

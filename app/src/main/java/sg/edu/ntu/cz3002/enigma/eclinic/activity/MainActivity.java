@@ -55,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            String s= bundle.getString("from");
+            if(s.equals("chat")){
+                // todo refresh function
+                switchTo(_chatFragment);
+            }
+            if(s.equals("portfolio")){
+                switchTo(_settingFragment);
+            }
+        }
     }
 
     private void setBottomBar() {
@@ -67,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         switchTo(_reminderFragment);
                         break;
                     case R.id.chats_button:
+                        // TODO refresh chat list
                         switchTo(_chatFragment);
                         break;
                     case R.id.settings_button:

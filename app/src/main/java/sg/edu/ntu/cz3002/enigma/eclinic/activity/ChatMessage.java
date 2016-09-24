@@ -1,4 +1,4 @@
-package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
+package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
 /**
  * Created by ZWL on 12/9/16.

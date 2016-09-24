@@ -32,4 +32,14 @@ public interface ApiService {
     })
     @POST("tokens/")
     Observable<ResponseBody> sendMessageToken(@Body MessageToken messageToken);
+
+
+
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("messages/")
+    Observable<Message> sendMessage(@Body Message msg);
 }

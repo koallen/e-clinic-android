@@ -56,7 +56,6 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                                 getView().showError(NETWORK_ERROR_MESSAGE);
                             }
                         }
-
                     }
 
                     @Override

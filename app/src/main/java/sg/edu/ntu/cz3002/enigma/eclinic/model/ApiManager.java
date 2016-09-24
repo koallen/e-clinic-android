@@ -37,8 +37,13 @@ public class ApiManager {
         return _apiService.getReservation(patientName);
     }
 
+
     public Observable<User> signup(String username, String password) {
         return _apiService.signup(new User(username, password));
+    }
+
+    public Observable<Message> sendMessage(String msg, String time, String receiver, String sender){
+        return _apiService.sendMessage(new Message(sender, receiver, msg));
     }
 
     public Observable<ResponseBody> sendMessageToken(String username, String token) {
