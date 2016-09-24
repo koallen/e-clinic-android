@@ -1,5 +1,6 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
@@ -24,6 +26,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
+import sg.edu.ntu.cz3002.enigma.eclinic.activity.ChatActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ChatPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
 
@@ -51,6 +54,17 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
         });
         getChatList();
         _chatListView.setAdapter(_chatListAdapter);
+
+        _chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView s = (TextView) view.findViewById(R.id.msgFrom);
+                String sender = s.getText().toString();
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                intent.putExtra("sender", sender);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 

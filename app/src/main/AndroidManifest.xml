@@ -24,6 +24,14 @@
 
         <activity android:name=".activity.SignupActivity" android:theme="@style/AppTheme.Dark"/>
 
+        <activity android:name=".activity.ChatActivity"
+            android:label="Chat List"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"/>
+        </activity>
         <activity
             android:name=".activity.UserProfileActivity"
             android:label="User Profile"
