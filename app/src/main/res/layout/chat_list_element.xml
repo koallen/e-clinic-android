@@ -16,11 +16,13 @@
         android:id="@+id/msgShort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="user name"
+        android:text="end with ... if  the message is too long"
         android:paddingLeft="5dp"
         android:textColor="#777777"
         android:textSize="12dp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
 
 </LinearLayout>

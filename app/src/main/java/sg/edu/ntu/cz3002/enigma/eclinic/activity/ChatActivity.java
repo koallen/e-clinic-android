@@ -28,6 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.DbHelper;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ChatPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
 import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatAdapter;
@@ -45,6 +46,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     // hard code users
     private String sender = "sender";
     private String user = "user";
+    private static DbHelper _dbHelper = null;
 
     @BindView(R.id.messageEditText)
     EditText _enterText;
@@ -58,6 +60,8 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
+
+        _dbHelper = new DbHelper(this);
 
         Intent intent = getIntent();
         setSender(intent.getStringExtra("sender"));
@@ -105,20 +109,25 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         // with actions named "custom-event-name".
         LocalBroadcastManager.getInstance(this).registerReceiver(_broadcastReceiver,
                 new IntentFilter("new-message"));
+
+        // todo display the chatting history
     }
 
     public boolean sendChatMessage() {
         String msg = _enterText.getText().toString();
         if (!msg.equalsIgnoreCase("")) {
-            _chatAdapter.add(new ChatMessage(_mine, _enterText.getText().toString(), sender, user));
+            _chatAdapter.add(new ChatMessage(_mine, msg, sender, user));
             _chatAdapter.notifyDataSetChanged();
             // reset the input box
             _enterText.setText("");
         }
+        // save the sent message into database
+        _dbHelper.insertDb(sender, user, msg);
+        Log.d(TAG, _dbHelper.readDb());
         return true;
     }
 
-    // TODO save msg to database
+    // receive message from FirebaseMessagingService
     private BroadcastReceiver _broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -129,7 +138,8 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             _chatAdapter.add(new ChatMessage(!_mine, message[1], message[0], user));
             _chatAdapter.notifyDataSetChanged();
 
-            // save the message into the database
+            // save the received message into the database
+            _dbHelper.insertDb(message[0], message[1], message[2]);
         }
     };
 

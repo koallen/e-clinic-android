@@ -1,18 +1,11 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.service;
 
-
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import sg.edu.ntu.cz3002.enigma.eclinic.model.DbHelper;
-
 
 /**
  * Created by koAllen on 9/4/2016.
@@ -32,7 +25,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
-            // TODO inform chat activity to update and display message
+            // inform chat activity to update and display message
             String[] broadcastMessage = new String[3];
             broadcastMessage[0] = remoteMessage.getData().get("receiver");
             broadcastMessage[1] = remoteMessage.getData().get("sender");
@@ -43,9 +36,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            broadcastMessage[3] = format.format(date);
 
             broadcastMessage(broadcastMessage);
-
-            DbHelper _dbHelper = new DbHelper(this);
-            _dbHelper.insertDb(broadcastMessage[0], broadcastMessage[1], broadcastMessage[2]);
         }
 
         // Check if message contains a notification payload.

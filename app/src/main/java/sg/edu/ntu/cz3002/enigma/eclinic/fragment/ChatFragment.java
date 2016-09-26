@@ -1,9 +1,14 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +29,14 @@ import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ChatPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
 import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatListAdapter;
 import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatListElement;
+import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatMessage;
 
 /**
  * chat fragement.
  */
 public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implements ChatView {
 
+    private static final String TAG = "ChatFragment";
     private List<ChatListElement> _chatList;
     private ChatListAdapter _chatListAdapter;
     @BindView(R.id.ChatList) ListView _chatListView;
@@ -47,6 +54,10 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
                 _chatListView.setSelection(_chatListAdapter.getCount()-1);
             }
         });
+
+        LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(_broadcastReceiver,
+                new IntentFilter("new-message"));
+
         getChatList();
         _chatListView.setAdapter(_chatListAdapter);
 
@@ -64,7 +75,6 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     }
 
     public void getChatList(){
-
         String text1 = "From", text2 = "Message";
         _chatListAdapter.add(new ChatListElement(text1, text2));
     }
@@ -72,6 +82,19 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     public void showError(String s){
 
     }
+
+    // has received new message
+    private BroadcastReceiver _broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "receive broadcast");
+            // display the received message on chat list
+            String[] message = intent.getStringArrayExtra("message");
+            // sender, message
+            _chatListAdapter.add(new ChatListElement(message[1], message[2]));
+            //_chatListAdapter.notifyDataSetChanged();
+        }
+    };
 
     @NonNull
     @Override
