@@ -1,12 +1,8 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.presenter;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -15,29 +11,26 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.ApiManager;
-import sg.edu.ntu.cz3002.enigma.eclinic.model.AuthToken;
-import sg.edu.ntu.cz3002.enigma.eclinic.model.Reservation;
-import sg.edu.ntu.cz3002.enigma.eclinic.view.ReminderView;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.Progress;
+import sg.edu.ntu.cz3002.enigma.eclinic.view.ProgressListView;
 
 /**
- * Created by SYY on 12/09/16.
+ * Created by koallen on 27/9/16.
  */
-public class ReminderPresenter extends MvpBasePresenter<ReminderView>{
+
+public class ProgressListPresenter extends MvpBasePresenter<ProgressListView> {
 
     private static final String TAG = "ReminderPresenter";
     private static final String HTTP_ERROR_MESSAGE = "Wrong credentials";
     private static final String NETWORK_ERROR_MESSAGE = "Network error";
 
-    public void getReservation(String patientName){
-        Log.d(TAG, "Connecting to remote server for requesting reservation info");
-        Observable<List<Reservation>> response = ApiManager.getInstance().getReservation(patientName);
+    public void getProgress(String patientName, String doctorName) {
+        Observable<List<Progress>> response = ApiManager.getInstance().getProgress(patientName, doctorName);
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<Reservation>>() {
+                .subscribe(new Subscriber<List<Progress>>() {
                     @Override
                     public void onCompleted() {
 
@@ -59,24 +52,12 @@ public class ReminderPresenter extends MvpBasePresenter<ReminderView>{
                     }
 
                     @Override
-                    public void onNext(List<Reservation> reservations) {
+                    public void onNext(List<Progress> progresses) {
+                        Log.d(TAG, progresses.toString());
                         if (isViewAttached()) {
-                            Log.d(TAG, "Getting data successful");
-                            Log.d(TAG, reservations.toString());
-                            getView().showReminders(reservations);
+                            getView().displayProgress(progresses);
                         }
                     }
                 });
     }
-
-
-
-    public void detachView(boolean retainPresenterInstance){
-        super.detachView(retainPresenterInstance);
-        if (!retainPresenterInstance){
-//            cancelGreetingTaskIfRunning();
-        }
-    }
-
-
 }

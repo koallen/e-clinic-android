@@ -45,6 +45,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         ButterKnife.bind(this, view);
+
         _chatList = new ArrayList<>();
         _chatListAdapter = new ChatListAdapter(this.getContext(), _chatList);
         _chatListAdapter.registerDataSetObserver(new DataSetObserver() {

@@ -38,7 +38,7 @@ public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresente
     private String _patientName;
 
     @BindView(R.id.reminders_swiperefresh) SwipeRefreshLayout _swipeRefreshLayout;
-    @BindView(R.id.list) ListView listView;
+    @BindView(R.id.reminder_list) ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

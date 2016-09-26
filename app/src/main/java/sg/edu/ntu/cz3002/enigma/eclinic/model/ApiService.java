@@ -26,6 +26,10 @@ public interface ApiService {
     @POST("auth-tokens/")
     Observable<AuthToken> authenticate(@Body User user);
 
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
     @GET("reservations/")
     Observable<List<Reservation>> getReservation(@Query("patient") String patientName);
 
@@ -57,4 +61,11 @@ public interface ApiService {
     })
     @POST("messages/")
     Observable<Message> sendMessage(@Body Message msg);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @GET("progresses/")
+    Observable<List<Progress>> getProgress(@Query("patient") String patientName, @Query("doctor") String doctorName);
 }

@@ -60,4 +60,8 @@ public class ApiManager {
     public Observable<List<Doctor>> testIdentity(String username) {
         return _apiService.testIdentity(username);
     }
+
+    public Observable<List<Progress>> getProgress(String patientName, String doctorName) {
+        return _apiService.getProgress(patientName, doctorName);
+    }
 }

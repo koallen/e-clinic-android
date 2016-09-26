@@ -12,6 +12,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
@@ -158,14 +160,31 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "menu inflating");
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.chat_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "Menu item clicked");
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
+            case R.id.action_check_progress:
+                goToProgressList();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goToProgressList() {
+        Intent intent = new Intent(this, ProgressListActivity.class);
+        intent.putExtra("doctor", "koallen");
+        startActivity(intent);
     }
 }
 

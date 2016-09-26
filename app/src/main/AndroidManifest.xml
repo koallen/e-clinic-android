@@ -31,14 +31,25 @@
             android:theme="@style/AppTheme.Dark" />
 
         <activity
+            android:name=".activity.ProgressListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.ChatActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ChatActivity" />
+        </activity>
+
+        <activity
             android:name=".activity.ChatActivity"
             android:label="Chat List"
+            android:launchMode="singleTop"
             android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
+
         <activity
             android:name=".activity.UserProfileActivity"
             android:label="User Profile"
@@ -57,8 +68,7 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.ntu.cz3002.enigma.eclinic.activity.MainActivity" /><!-- ATTENTION: This intent was auto-generated. Follow instructions at
-  https://g.co/AppIndexing/AndroidStudio to publish your URLs. -->
+                android:value=".activity.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
