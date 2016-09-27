@@ -76,7 +76,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="Gender"
+                android:text="@string/gender_input_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="4dp"
@@ -87,16 +87,16 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <RadioButton android:id="@+id/radio_pirates"
+                <RadioButton android:id="@+id/radio_male_doctor"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Male"/>
-                <RadioButton android:id="@+id/radio_ninjas"
+                    android:text="@string/gender_radio_group_male"/>
+                <RadioButton android:id="@+id/radio_female_doctor"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Female"/>
+                    android:text="@string/gender_radio_group_female"/>
             </RadioGroup>
 
         </LinearLayout>

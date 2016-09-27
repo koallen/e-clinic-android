@@ -11,4 +11,8 @@
     <string name="settings_bottombar_label">Settings</string>
     <string name="signup_doctor_clinic">Clinic</string>
     <string name="signup_doctor_description">Description</string>
+    <string name="age_input_label">Age</string>
+    <string name="gender_input_label">Gender</string>
+    <string name="gender_radio_group_male">Male</string>
+    <string name="gender_radio_group_female">Female</string>
 </resources>

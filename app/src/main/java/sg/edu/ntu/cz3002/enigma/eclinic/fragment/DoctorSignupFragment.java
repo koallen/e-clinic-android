@@ -125,10 +125,12 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
     }
+
     @Override
     public void showError(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
+
     @Override
     public void showMessage(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
