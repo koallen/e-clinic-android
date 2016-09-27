@@ -15,4 +15,6 @@
     <string name="gender_input_label">Gender</string>
     <string name="gender_radio_group_male">Male</string>
     <string name="gender_radio_group_female">Female</string>
+    <string name="date_input_label">Pick a date</string>
+    <string name="time_input_label">Pick a time</string>
 </resources>

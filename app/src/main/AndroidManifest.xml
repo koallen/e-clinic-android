@@ -42,6 +42,15 @@
         </activity>
 
         <activity
+            android:name=".activity.AddReminderActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.ChatActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ChatActivity" />
+        </activity>
+
+        <activity
             android:name=".activity.ChatActivity"
             android:label="Chat List"
             android:launchMode="singleTop"

@@ -177,12 +177,21 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             case R.id.action_check_progress:
                 goToProgressList();
                 return true;
+            case R.id.action_add_reminder:
+                goToAddReminder();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void goToProgressList() {
         Intent intent = new Intent(this, ProgressListActivity.class);
+        intent.putExtra("doctor", "koallen");
+        startActivity(intent);
+    }
+
+    private void goToAddReminder() {
+        Intent intent = new Intent(this, AddReminderActivity.class);
         intent.putExtra("doctor", "koallen");
         startActivity(intent);
     }
