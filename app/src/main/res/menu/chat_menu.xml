@@ -14,4 +14,10 @@
         android:title="Check Progress"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_add_reminder"
+        android:icon="@drawable/ic_settings"
+        android:title="Add reminder"
+        app:showAsAction="never" />
+
 </menu>
