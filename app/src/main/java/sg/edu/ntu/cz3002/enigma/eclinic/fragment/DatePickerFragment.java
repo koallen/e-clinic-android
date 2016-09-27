@@ -11,6 +11,8 @@ import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
+import sg.edu.ntu.cz3002.enigma.eclinic.R;
+
 /**
  * Created by koallen on 28/9/16.
  */
@@ -26,6 +28,6 @@ public class DatePickerFragment extends DialogFragment {
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener)getActivity(), year, month, day);
+        return new DatePickerDialog(getActivity(), R.style.Picker, (DatePickerDialog.OnDateSetListener)getActivity(), year, month, day);
     }
 }
