@@ -9,4 +9,6 @@
     <string name="reminders_bottombar_label">Reminders</string>
     <string name="chats_bottombar_label">Chats</string>
     <string name="settings_bottombar_label">Settings</string>
+    <string name="signup_doctor_clinic">Clinic</string>
+    <string name="signup_doctor_description">Description</string>
 </resources>

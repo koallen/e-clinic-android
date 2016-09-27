@@ -32,9 +32,9 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
 
     private static final String TAG = "DoctorSignupFragment";
 
-    @BindView(R.id.username_input_signup) TextInputEditText _usernameText;
-    @BindView(R.id.password_input_signup) TextInputEditText _passwordText;
-    @BindView(R.id.btn_signup) AppCompatButton _signupButton;
+    @BindView(R.id.username_input_signup_doctor) TextInputEditText _usernameText;
+    @BindView(R.id.password_input_signup_doctor) TextInputEditText _passwordText;
+    @BindView(R.id.btn_signup_doctor) AppCompatButton _signupButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,12 +43,12 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
         return view;
     }
 
-    @OnClick(R.id.btn_signup)
+    @OnClick(R.id.btn_signup_doctor)
     public void onSignupButtonClicked(View view){
         signup();
     }
 
-    @OnClick(R.id.link_login)
+    @OnClick(R.id.link_login_doctor)
     public void onLoginLinkClicked(View view){
         getActivity().finish();
     }

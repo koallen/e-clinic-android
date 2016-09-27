@@ -24,11 +24,13 @@
 
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activity.SignupActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activity.ProgressListActivity"
