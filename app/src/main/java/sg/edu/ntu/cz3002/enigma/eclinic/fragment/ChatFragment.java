@@ -68,10 +68,6 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
             }
         });
 
-        LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(_broadcastReceiver,
-                new IntentFilter("new-message"));
-
-//        getChatList();
         _chatListView.setAdapter(_chatListAdapter);
 
         _chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,10 +93,18 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         Log.d(TAG, "--- ON RESUME ---");
         super.onResume();
+        LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(_broadcastReceiver,
+                new IntentFilter("new-message"));
         loadHistory();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this.getContext()).unregisterReceiver(_broadcastReceiver);
     }
 
     public void loadHistory(){
@@ -119,18 +123,18 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "receive broadcast");
             // display the received message on chat list
-            String[] message = intent.getStringArrayExtra("message");
-            int oldChat = 0;
-            for(ChatListElement element : _chatList){
-                if (element.getMsgFrom() == message[1]){
-                    oldChat = 1;
-                    _chatListAdapter.remove(element);
-                    break;
-                }
-            }
-            // sender, message
-            _chatListAdapter.add(new ChatListElement(message[0], message[1]));
-            //_chatListAdapter.notifyDataSetChanged();
+//            String[] message = intent.getStringArrayExtra("message");
+//            int oldChat = 0;
+//            for(ChatListElement element : _chatList){
+//                if (element.getMsgFrom() == message[1]){
+//                    oldChat = 1;
+//                    _chatListAdapter.remove(element);
+//                    break;
+//                }
+//            }
+//            // sender, message
+//            _chatListAdapter.add(new ChatListElement(message[0], message[1]));
+            loadHistory();
         }
     };
 

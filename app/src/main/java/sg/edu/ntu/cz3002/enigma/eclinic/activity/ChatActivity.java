@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
+import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.DbHelper;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ChatPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
@@ -48,7 +50,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     private boolean _mine = true;
     // hard code users
     private String sender = "sender";
-    private String user = "user";
+    private String user;
     private static DbHelper _dbHelper = null;
     private IntentFilter filter = new IntentFilter();
 
@@ -66,6 +68,9 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         ButterKnife.bind(this);
 
         _dbHelper = new DbHelper(this);
+
+        SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+        user = preferences.getString(Value.userNamePreferenceName, "no name");
 
         Intent intent = getIntent();
         setSender(intent.getStringExtra("sender"));
@@ -107,13 +112,6 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         });
 
         _msgListView.setAdapter(_chatAdapter);
-
-        // Register to receive messages.
-        // Registering an observer, _broadcastReceiver, to receive Intents
-        // with actions named "custom-event-name".
-        LocalBroadcastManager.getInstance(this).registerReceiver(_broadcastReceiver,
-                new IntentFilter("new-message"));
-
     }
 
     public boolean sendChatMessage() {
@@ -139,8 +137,6 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             // sender, message, time
             _chatAdapter.add(new ChatMessage(!_mine, message[1], message[0], user));
             _chatAdapter.notifyDataSetChanged();
-            // save the received message into the database
-            _dbHelper.insertDb(user, message[0], message[1]);
         }
     };
 
@@ -198,11 +194,17 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     public void onPause(){
         super.onPause();
         Log.d(TAG, "---ON PAUSE---");
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(_broadcastReceiver);
     }
 
     @Override
     public void onResume(){
         super.onResume();
+        // Register to receive messages.
+        // Registering an observer, _broadcastReceiver, to receive Intents
+        // with actions named "custom-event-name".
+        LocalBroadcastManager.getInstance(this).registerReceiver(_broadcastReceiver,
+                new IntentFilter("new-message"));
         loadHistory();
         Log.d(TAG, "---ON RESUME---");
     }

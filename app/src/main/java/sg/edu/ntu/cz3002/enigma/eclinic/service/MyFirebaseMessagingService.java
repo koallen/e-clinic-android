@@ -1,11 +1,16 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.service;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import sg.edu.ntu.cz3002.enigma.eclinic.Value;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.DbHelper;
 
 /**
  * Created by koAllen on 9/4/2016.
@@ -29,11 +34,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            broadcastMessage[0] = remoteMessage.getData().get("receiver");
             broadcastMessage[0] = remoteMessage.getData().get("from_user");
             broadcastMessage[1] = remoteMessage.getData().get("message");
-            // also include the receiving time
-//            Date date = new Date();
-//            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:MM");
-//            broadcastMessage[3] = format.format(date);
             System.out.println(broadcastMessage[0] + broadcastMessage[1]);
+
+            // save the message to database
+            DbHelper dbHelper = new DbHelper(this);
+            SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+            String user = preferences.getString(Value.userNamePreferenceName, "no name");
+            dbHelper.insertDb(user, broadcastMessage[0], broadcastMessage[1]);
+
+            // notify activity/fragment to update their UI
             broadcastMessage(broadcastMessage);
         }
 
