@@ -69,7 +69,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(_broadcastReceiver,
                 new IntentFilter("new-message"));
 
-        getChatList();
+//        getChatList();
         _chatListView.setAdapter(_chatListAdapter);
 
         _chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -96,6 +96,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
 
     @Override
     public void onResume(){
+        Log.d(TAG, "--- ON RESUME ---");
         super.onResume();
         loadHistory();
     }
@@ -103,8 +104,9 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     public void loadHistory(){
         List<String> temp = _dbHelper.getChatHistoryList();
         for(int i = 0; i < temp.size(); i += 2) {
-            if(!temp.get(i).equals(_user))
+            if(!temp.get(i).equals(_user))   // TODO already checked whether its user or not, but still display user as one list element
                 _chatListAdapter.add(new ChatListElement(temp.get(i), temp.get(i+1)));
+            System.out.println("loop" + i);
         }
     }
 
@@ -124,7 +126,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
                 }
             }
             // sender, message
-            _chatListAdapter.add(new ChatListElement(message[1], message[2]));
+            _chatListAdapter.add(new ChatListElement(message[0], message[1]));
             //_chatListAdapter.notifyDataSetChanged();
         }
     };

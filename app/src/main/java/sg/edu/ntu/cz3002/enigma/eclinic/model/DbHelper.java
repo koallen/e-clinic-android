@@ -44,7 +44,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_NAME +
                     " (" + COLUMN_NAME_ID+ " INTEGER PRIMARY KEY," +
-                    COLUMN_NAME_TIME + TEXT_TYPE + COMMA_SEP +
+                    COLUMN_NAME_TIME + " LONG" + COMMA_SEP +
                     COLUMN_NAME_RECEIVER + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_SENDER + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_MSG + TEXT_TYPE + " )";
@@ -99,7 +99,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME_RECEIVER, receiver);
         values.put(COLUMN_NAME_SENDER, sender);
         values.put(COLUMN_NAME_MSG, msg);
-        values.put(COLUMN_NAME_TIME, new Date().toString());
+        values.put(COLUMN_NAME_TIME, new Date().getTime());
         db.insert(TABLE_NAME, null, values);
         // Insert the new row, returning the primary key value of the new row
         //long newRowId = db.insert(TABLE_NAME, null, values);
@@ -127,16 +127,23 @@ public class DbHelper extends SQLiteOpenHelper {
         Cursor _c = loadUser();
         String _s;
         List<String> _result = new ArrayList<>();
-        while(_c != null){
+        if(_c == null)
+            return _result;
+        while(true){
             _s = _c.getString(_c.getColumnIndex("USER"));
             Cursor _return = db.query(TABLE_NAME, projection,
                     "SENDER = ? OR RECEIVER = ?",
                     new String[] {_s, _s},
                     null, null, sortOrder, "1");
+            _return.moveToFirst();
+            System.out.println("count"+_return.getCount());
             _result.add(_s);
+            System.out.println(_return.getColumnIndex(COLUMN_NAME_MSG));
             _result.add(_return.getString(_return.getColumnIndex(COLUMN_NAME_MSG)));
+            if(_c.isLast())
+                return _result;
+            _c.moveToNext();
         }
-        return _result;
     }
 
     public Cursor loadUser() {
@@ -148,8 +155,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 "FROM ChatTable";
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
-        Log.d("C", c.getString(c.getColumnIndex("USER")));
-//        Log.d("C: ",c.getColumnNames()[0]);
+        if(c.getCount() == 0){
+            Log.d("C:", "nothing");
+            return null;
+        }
+        System.out.println("c.getCount() "+c.getCount());
         return c;
     }
 }

@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         if(bundle != null){
             String s= bundle.getString("from");
             if(s.equals("chat")){
-                // todo refresh function
                 switchTo(_chatFragment);
             }
             if(s.equals("portfolio")){

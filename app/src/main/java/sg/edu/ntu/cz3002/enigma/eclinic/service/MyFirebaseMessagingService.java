@@ -17,7 +17,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // ...
 
-        // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
@@ -26,15 +25,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
             // inform chat activity to update and display message
-            String[] broadcastMessage = new String[3];
-            broadcastMessage[0] = remoteMessage.getData().get("receiver");
-            broadcastMessage[1] = remoteMessage.getData().get("sender");
-            broadcastMessage[2] = remoteMessage.getData().get("message");
+            String[] broadcastMessage = new String[2];
+//            broadcastMessage[0] = remoteMessage.getData().get("receiver");
+            broadcastMessage[0] = remoteMessage.getData().get("from_user");
+            broadcastMessage[1] = remoteMessage.getData().get("message");
             // also include the receiving time
 //            Date date = new Date();
 //            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:MM");
 //            broadcastMessage[3] = format.format(date);
-
+            System.out.println(broadcastMessage[0] + broadcastMessage[1]);
             broadcastMessage(broadcastMessage);
         }
 
@@ -52,7 +51,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d("sender", "Broadcasting message");
         Intent intent = new Intent("new-message");
         intent.putExtra("message",remoteMessage);
-        //LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-        sendOrderedBroadcast(intent,null); // set permission to null : no permission is required
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+//        sendOrderedBroadcast(intent,null); // set permission to null : no permission is required
     }
 }

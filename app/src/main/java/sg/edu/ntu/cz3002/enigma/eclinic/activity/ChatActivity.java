@@ -114,7 +114,6 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         LocalBroadcastManager.getInstance(this).registerReceiver(_broadcastReceiver,
                 new IntentFilter("new-message"));
 
-        // todo display the chatting history
     }
 
     public boolean sendChatMessage() {
@@ -140,9 +139,8 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             // sender, message, time
             _chatAdapter.add(new ChatMessage(!_mine, message[1], message[0], user));
             _chatAdapter.notifyDataSetChanged();
-
             // save the received message into the database
-            _dbHelper.insertDb(message[0], message[1], message[2]);
+            _dbHelper.insertDb(user, message[0], message[1]);
         }
     };
 
@@ -174,19 +172,25 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
 //        });
 
 //        _msgListView.setAdapter(_chatAdapter);
-        while(c != null){
+        if(c.getCount() == 0)
+            return;
+
+        while(true){
             Log.d(TAG,"INSIDE WHILE");
             s = c.getString(c.getColumnIndex("SENDER"));
             r = c.getString(c.getColumnIndex("RECEIVER"));
             m = c.getString(c.getColumnIndex("MESSAGE"));
             t = c.getString(c.getColumnIndex("TIME"));
             if (s.equals(sender)){
+                Log.d(TAG, "receive message");
                 _chatAdapter.add(new ChatMessage(!_mine, m, s, r));
             }
             else if (!s.equals(sender)){  // s is a receiver
                 _chatAdapter.add(new ChatMessage(_mine, m, s, r));
             }
-
+            if(c.isLast())
+                return;
+            c.moveToNext();
         }
     }
 
