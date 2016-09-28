@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,7 +27,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
+import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.ChatActivity;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.DbHelper;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ChatPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
 import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatListAdapter;
@@ -39,12 +44,17 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     private static final String TAG = "ChatFragment";
     private List<ChatListElement> _chatList;
     private ChatListAdapter _chatListAdapter;
+    private static DbHelper _dbHelper;
+    private String _user;
+    SharedPreferences preference;
     @BindView(R.id.ChatList) ListView _chatListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         ButterKnife.bind(this, view);
+        _dbHelper = new DbHelper(this.getContext());
+        preference = this.getActivity().getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
 
         _chatList = new ArrayList<>();
         _chatListAdapter = new ChatListAdapter(this.getContext(), _chatList);
@@ -84,6 +94,20 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadHistory();
+    }
+
+    public void loadHistory(){
+        List<String> temp = _dbHelper.getChatHistoryList();
+        for(int i = 0; i < temp.size(); i += 2) {
+            if(!temp.get(i).equals(_user))
+                _chatListAdapter.add(new ChatListElement(temp.get(i), temp.get(i+1)));
+        }
+    }
+
     // has received new message
     private BroadcastReceiver _broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -91,6 +115,14 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
             Log.d(TAG, "receive broadcast");
             // display the received message on chat list
             String[] message = intent.getStringArrayExtra("message");
+            int oldChat = 0;
+            for(ChatListElement element : _chatList){
+                if (element.getMsgFrom() == message[1]){
+                    oldChat = 1;
+                    _chatListAdapter.remove(element);
+                    break;
+                }
+            }
             // sender, message
             _chatListAdapter.add(new ChatListElement(message[1], message[2]));
             //_chatListAdapter.notifyDataSetChanged();

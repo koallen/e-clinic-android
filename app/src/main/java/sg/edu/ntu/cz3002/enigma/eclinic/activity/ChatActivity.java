@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -49,6 +50,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     private String sender = "sender";
     private String user = "user";
     private static DbHelper _dbHelper = null;
+    private IntentFilter filter = new IntentFilter();
 
     @BindView(R.id.messageEditText)
     EditText _enterText;
@@ -125,7 +127,6 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         }
         // save the sent message into database
         _dbHelper.insertDb(sender, user, msg);
-        Log.d(TAG, _dbHelper.readDb());
         return true;
     }
 
@@ -147,6 +148,59 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
 
     public void setSender(String s) {
         this.sender = s;
+    }
+
+    public void loadHistory(){
+        String[] temp = new String[2];
+        temp[0] = temp[1] = sender;
+        String r, s, m, t;
+
+        _dbHelper.setSelection("SENDER = ? OR RECEIVER = ?");
+        _dbHelper.setSelectionValue(temp);
+        Cursor c = _dbHelper.readDb();
+
+//        _msgArrayList = new ArrayList<>();
+//
+//        _msgListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+//        _msgListView.setStackFromBottom(true);
+//
+//        _chatAdapter = new ChatAdapter(this, _msgArrayList);
+//        _chatAdapter.registerDataSetObserver(new DataSetObserver() {
+//            @Override
+//            public void onChanged() {
+//                super.onChanged();
+//                _msgListView.setSelection(_chatAdapter.getCount() - 1);
+//            }
+//        });
+
+//        _msgListView.setAdapter(_chatAdapter);
+        while(c != null){
+            Log.d(TAG,"INSIDE WHILE");
+            s = c.getString(c.getColumnIndex("SENDER"));
+            r = c.getString(c.getColumnIndex("RECEIVER"));
+            m = c.getString(c.getColumnIndex("MESSAGE"));
+            t = c.getString(c.getColumnIndex("TIME"));
+            if (s.equals(sender)){
+                _chatAdapter.add(new ChatMessage(!_mine, m, s, r));
+            }
+            else if (!s.equals(sender)){  // s is a receiver
+                _chatAdapter.add(new ChatMessage(_mine, m, s, r));
+            }
+
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d(TAG, "---ON PAUSE---");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadHistory();
+        Log.d(TAG, "---ON RESUME---");
     }
 
     @NonNull

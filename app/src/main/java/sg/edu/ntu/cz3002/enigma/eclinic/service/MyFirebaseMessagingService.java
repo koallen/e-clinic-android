@@ -52,6 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d("sender", "Broadcasting message");
         Intent intent = new Intent("new-message");
         intent.putExtra("message",remoteMessage);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        //LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        sendOrderedBroadcast(intent,null); // set permission to null : no permission is required
     }
 }

@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        // ????still need or not? I think this part is for implementing the get-back function which is already done
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             String s= bundle.getString("from");

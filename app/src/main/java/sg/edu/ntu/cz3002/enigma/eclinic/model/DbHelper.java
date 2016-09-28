@@ -5,9 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Database helper to handle all db related staffs
@@ -17,13 +20,26 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "eClinic.db";
     public static final String TABLE_NAME = "ChatTable";
-    public static final String COLUMN_NAME_RECEIVER = "Receiver";
-    public static final String COLUMN_NAME_SENDER = "Sender";
-    public static final String COLUMN_NAME_MSG = "Message";
-    public static final String COLUMN_NAME_TIME = "Time";
+    public static final String COLUMN_NAME_RECEIVER = "RECEIVER";
+    public static final String COLUMN_NAME_SENDER = "SENDER";
+    public static final String COLUMN_NAME_MSG = "MESSAGE";
+    public static final String COLUMN_NAME_TIME = "TIME";
     public static final String COLUMN_NAME_ID = "ID";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
+
+    private String selection = null;
+    private String[] selectionValue = null;
+    private String groupBy = null;
+    private String having = null;
+    private String[] projection = {
+            COLUMN_NAME_ID,
+            COLUMN_NAME_RECEIVER,
+            COLUMN_NAME_SENDER,
+            COLUMN_NAME_MSG,
+            COLUMN_NAME_TIME
+    };
+    private String sortOrder = COLUMN_NAME_TIME + " DESC";
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_NAME +
@@ -59,6 +75,20 @@ public class DbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    public void setSelection(String s){
+        this.selection = s;
+    }
+
+    public void setGroupBy(String s){
+        this.groupBy = s;
+    }
+
+    public void setHaving(String s) { this.having = s;}
+
+    public void setSelectionValue(String[] s){
+        this.selectionValue = s;
+    }
+
     public boolean insertDb (String receiver, String sender, String msg){
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
@@ -76,33 +106,50 @@ public class DbHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public String readDb(){
+    public Cursor readDb(){
         SQLiteDatabase db = this.getReadableDatabase();
-
-        String[] projection = {
-                COLUMN_NAME_ID,
-                COLUMN_NAME_RECEIVER,
-                COLUMN_NAME_SENDER,
-                COLUMN_NAME_MSG,
-                COLUMN_NAME_TIME
-        };
-
-        String selection = "ROWNUM = 1";
-        String[] selectionArgs = { "My Title" };
-
-        String sortOrder = COLUMN_NAME_TIME + " DESC";
 
         Cursor c = db.query(
                 TABLE_NAME,                               // The table to query
                 projection,                                     // "*" select all col
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
+                selection,                                // The columns for the WHERE clause
+                selectionValue,                            // The values for the WHERE clause
+                groupBy,                                     // group the rows
+                having,                                     // filter by row groups
                 sortOrder                                 // The sort order
         );
         c.moveToFirst();
-        return c.getString(c.getColumnIndex(COLUMN_NAME_SENDER)) + " : " +
-                c.getString(c.getColumnIndex(COLUMN_NAME_MSG));
+        return c;
+    }
+
+    public List getChatHistoryList(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor _c = loadUser();
+        String _s;
+        List<String> _result = new ArrayList<>();
+        while(_c != null){
+            _s = _c.getString(_c.getColumnIndex("USER"));
+            Cursor _return = db.query(TABLE_NAME, projection,
+                    "SENDER = ? OR RECEIVER = ?",
+                    new String[] {_s, _s},
+                    null, null, sortOrder, "1");
+            _result.add(_s);
+            _result.add(_return.getString(_return.getColumnIndex(COLUMN_NAME_MSG)));
+        }
+        return _result;
+    }
+
+    public Cursor loadUser() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT RECEIVER AS USER " +
+                "FROM ChatTable" +
+                " UNION " +
+                "SELECT SENDER AS USER " +
+                "FROM ChatTable";
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        Log.d("C", c.getString(c.getColumnIndex("USER")));
+//        Log.d("C: ",c.getColumnNames()[0]);
+        return c;
     }
 }
