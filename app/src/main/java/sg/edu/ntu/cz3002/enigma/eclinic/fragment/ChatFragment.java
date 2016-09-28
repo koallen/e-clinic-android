@@ -46,7 +46,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     private ChatListAdapter _chatListAdapter;
     private static DbHelper _dbHelper;
     private String _user;
-    SharedPreferences preference;
+    SharedPreferences _preference;
     @BindView(R.id.ChatList) ListView _chatListView;
 
     @Override
@@ -54,7 +54,9 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         ButterKnife.bind(this, view);
         _dbHelper = new DbHelper(this.getContext());
-        preference = this.getActivity().getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+
+        _preference = this.getActivity().getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+        _user = _preference.getString(Value.userNamePreferenceName, "no name");
 
         _chatList = new ArrayList<>();
         _chatListAdapter = new ChatListAdapter(this.getContext(), _chatList);
@@ -103,6 +105,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
 
     public void loadHistory(){
         List<String> temp = _dbHelper.getChatHistoryList();
+        _chatListAdapter.clear();
         for(int i = 0; i < temp.size(); i += 2) {
             if(!temp.get(i).equals(_user))   // TODO already checked whether its user or not, but still display user as one list element
                 _chatListAdapter.add(new ChatListElement(temp.get(i), temp.get(i+1)));
