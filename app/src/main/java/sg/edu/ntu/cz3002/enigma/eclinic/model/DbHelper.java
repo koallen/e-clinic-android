@@ -89,7 +89,7 @@ public class DbHelper extends SQLiteOpenHelper {
         this.selectionValue = s;
     }
 
-    public boolean insertDb (String receiver, String sender, String msg){
+    public boolean insertDb (String receiver, String sender, String msg, long time){
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -99,7 +99,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME_RECEIVER, receiver);
         values.put(COLUMN_NAME_SENDER, sender);
         values.put(COLUMN_NAME_MSG, msg);
-        values.put(COLUMN_NAME_TIME, new Date().getTime());
+        values.put(COLUMN_NAME_TIME, time);
         db.insert(TABLE_NAME, null, values);
         // Insert the new row, returning the primary key value of the new row
         //long newRowId = db.insert(TABLE_NAME, null, values);
@@ -136,9 +136,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     new String[] {_s, _s},
                     null, null, sortOrder, "1");
             _return.moveToFirst();
-            System.out.println("count"+_return.getCount());
             _result.add(_s);
-            System.out.println(_return.getColumnIndex(COLUMN_NAME_MSG));
             _result.add(_return.getString(_return.getColumnIndex(COLUMN_NAME_MSG)));
             if(_c.isLast())
                 return _result;
@@ -159,7 +157,6 @@ public class DbHelper extends SQLiteOpenHelper {
             Log.d("C:", "nothing");
             return null;
         }
-        System.out.println("c.getCount() "+c.getCount());
         return c;
     }
 }

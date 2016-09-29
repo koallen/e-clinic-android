@@ -26,9 +26,10 @@ import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
@@ -53,6 +54,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     private String user;
     private static DbHelper _dbHelper = null;
     private IntentFilter filter = new IntentFilter();
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM");
 
     @BindView(R.id.messageEditText)
     EditText _enterText;
@@ -117,13 +119,13 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     public boolean sendChatMessage() {
         String msg = _enterText.getText().toString();
         if (!msg.equalsIgnoreCase("")) {
-            _chatAdapter.add(new ChatMessage(_mine, msg, sender, user));
+            _chatAdapter.add(new ChatMessage(_mine, msg, sender, user, sdf.format(new Date())));
             _chatAdapter.notifyDataSetChanged();
             // reset the input box
             _enterText.setText("");
         }
         // save the sent message into database
-        _dbHelper.insertDb(sender, user, msg);
+        _dbHelper.insertDb(sender, user, msg, new Date().getTime());
         return true;
     }
 
@@ -135,7 +137,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             // display the received message on chatting page
             String[] message = intent.getStringArrayExtra("message");
             // sender, message, time
-            _chatAdapter.add(new ChatMessage(!_mine, message[1], message[0], user));
+            _chatAdapter.add(new ChatMessage(!_mine, message[1], message[0], user, sdf.format(new Date())));
             _chatAdapter.notifyDataSetChanged();
         }
     };
@@ -147,42 +149,29 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     public void loadHistory(){
         String[] temp = new String[2];
         temp[0] = temp[1] = sender;
-        String r, s, m, t;
+        String r, s, m;
+        long t;
 
         _dbHelper.setSelection("SENDER = ? OR RECEIVER = ?");
         _dbHelper.setSelectionValue(temp);
         Cursor c = _dbHelper.readDb();
 
-//        _msgArrayList = new ArrayList<>();
-//
-//        _msgListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-//        _msgListView.setStackFromBottom(true);
-//
-//        _chatAdapter = new ChatAdapter(this, _msgArrayList);
-//        _chatAdapter.registerDataSetObserver(new DataSetObserver() {
-//            @Override
-//            public void onChanged() {
-//                super.onChanged();
-//                _msgListView.setSelection(_chatAdapter.getCount() - 1);
-//            }
-//        });
-
-//        _msgListView.setAdapter(_chatAdapter);
         if(c.getCount() == 0)
             return;
 
         while(true){
-            Log.d(TAG,"INSIDE WHILE");
             s = c.getString(c.getColumnIndex("SENDER"));
             r = c.getString(c.getColumnIndex("RECEIVER"));
             m = c.getString(c.getColumnIndex("MESSAGE"));
-            t = c.getString(c.getColumnIndex("TIME"));
+            t = Long.parseLong(c.getString(c.getColumnIndex("TIME")));
+            Date date = new Date(t);
             if (s.equals(sender)){
                 Log.d(TAG, "receive message");
-                _chatAdapter.add(new ChatMessage(!_mine, m, s, r));
+                _chatAdapter.insert((new ChatMessage(!_mine, m, s, r, sdf.format(date))), 0);
             }
             else if (!s.equals(sender)){  // s is a receiver
-                _chatAdapter.add(new ChatMessage(_mine, m, s, r));
+                _chatAdapter.insert((new ChatMessage(_mine, m, s, r, sdf.format(date))), 0);
+                System.out.println(t);
             }
             if(c.isLast())
                 return;

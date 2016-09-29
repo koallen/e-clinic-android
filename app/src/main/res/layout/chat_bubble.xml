@@ -7,13 +7,15 @@
     android:orientation="vertical"
     android:paddingBottom="5dp"
     android:paddingRight="10dp"
-    android:paddingTop="5dp" >
+    android:paddingTop="5dp"
+    android:baselineAligned="false">
 
 <TextView
     android:id="@+id/msgInfo"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="5dp"
+    android:text="yyyy-MM-dd HH:MM"
     android:textColor="#777777"
     android:textSize="12dp"
     android:textStyle="italic" />

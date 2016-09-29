@@ -23,6 +23,7 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
     private TextView _chatText;
     private List<ChatMessage> _chatMessageList = new ArrayList<>();
     private Context _context;
+    private String _time;
 
     // constructor
     public ChatAdapter(Context context, List<ChatMessage> list){
@@ -46,6 +47,10 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
         return position;
     }
 
+    public void setTime(String t){
+        this._time = t;
+    }
+
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent){
@@ -58,23 +63,21 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
 
         }
         else{
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.chat_bubble, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.chat_bubble_l, parent, false);
             TextView textView = (TextView) convertView.findViewById(R.id.txtMsg);
             textView.setText(_chatMessageObj.getMessage());
         }
 
         TextView msgInfo = (TextView) convertView.findViewById(R.id.msgInfo);
-        Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:MM");
-        String time = format.format(date);
-        msgInfo.setText(time);
 
-        convertView.findViewById(R.id.chatBubbleContainer).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "onClick", Toast.LENGTH_LONG).show();
-            }
-        });
+        msgInfo.setText(_chatMessageObj.getTime());
+
+//        convertView.findViewById(R.id.chatBubbleContainer).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getContext(), "onClick", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         return convertView;
     }

@@ -8,13 +8,15 @@ public class ChatMessage {
     private String _message;
     private String _sender;
     private String _receiver;
+    private String _time;
 
-    public ChatMessage(boolean mine, String message, String sender, String receiver) {
+    public ChatMessage(boolean mine, String message, String sender, String receiver, String time) {
         super();
         this._mine = mine;
         this._message = message;
         this._receiver = receiver;
         this._sender = sender;
+        this._time = time;
     }
 
     public void setMine(boolean mine) {
@@ -31,6 +33,14 @@ public class ChatMessage {
 
     public String getSender() {
         return this._sender;
+    }
+
+    public void setTime(String time) {
+        this._time = time;
+    }
+
+    public String getTime() {
+        return this._time;
     }
 
     public String getMessage() {

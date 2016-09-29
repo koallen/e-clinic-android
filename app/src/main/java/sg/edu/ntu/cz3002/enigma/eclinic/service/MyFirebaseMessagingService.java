@@ -9,6 +9,8 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Date;
+
 import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.DbHelper;
 
@@ -40,7 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             DbHelper dbHelper = new DbHelper(this);
             SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
             String user = preferences.getString(Value.userNamePreferenceName, "no name");
-            dbHelper.insertDb(user, broadcastMessage[0], broadcastMessage[1]);
+            dbHelper.insertDb(user, broadcastMessage[0], broadcastMessage[1], new Date().getTime());
 
             // notify activity/fragment to update their UI
             broadcastMessage(broadcastMessage);
