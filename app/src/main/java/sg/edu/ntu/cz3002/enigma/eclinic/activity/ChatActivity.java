@@ -126,6 +126,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         }
         // save the sent message into database
         _dbHelper.insertDb(sender, user, msg, new Date().getTime());
+        System.out.println("save to db" + sdf.format(new Date()));      // TODO I HAVE NO IDEA WHY EACH TIME I CREATE A NEW DATE OBJ, IT RETURNS THE SAME VALUE
         return true;
     }
 
@@ -165,13 +166,13 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             m = c.getString(c.getColumnIndex("MESSAGE"));
             t = Long.parseLong(c.getString(c.getColumnIndex("TIME")));
             Date date = new Date(t);
+            System.out.println(sdf.format(date));
             if (s.equals(sender)){
                 Log.d(TAG, "receive message");
                 _chatAdapter.insert((new ChatMessage(!_mine, m, s, r, sdf.format(date))), 0);
             }
             else if (!s.equals(sender)){  // s is a receiver
                 _chatAdapter.insert((new ChatMessage(_mine, m, s, r, sdf.format(date))), 0);
-                System.out.println(t);
             }
             if(c.isLast())
                 return;
