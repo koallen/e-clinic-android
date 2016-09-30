@@ -42,7 +42,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             dbHelper.insertDb(receiver, sender, messageContent, datetime);
 
             // notify activity/fragment to update their UI
-            broadcastMessage();
+            String[] message = new String[2];
+            message[0] = messageContent;
+            message[1] = sender;
+            broadcastMessage(message);
         }
 
         // Check if message contains a notification payload.
@@ -51,9 +54,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void broadcastMessage() {
+    private void broadcastMessage(String[] message) {
         Log.d(TAG, "Broadcasting message");
         Intent intent = new Intent("new-message");
+        intent.putExtra("message", message);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }
