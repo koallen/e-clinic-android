@@ -50,12 +50,10 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     private List<ChatMessage> _msgArrayList;
     private ChatAdapter _chatAdapter;
     private boolean _mine = true;
-    // hard code users
-    private String sender = "sender";
-    private String user;
-    private static DbHelper _dbHelper = null;
-    private IntentFilter filter = new IntentFilter();
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private String _interlocutor;
+    private String _user;
+    private static DbHelper _dbHelper;
+    private SimpleDateFormat _simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @BindView(R.id.messageEditText)
     EditText _enterText;
@@ -70,19 +68,135 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
+        // set some variables
+        setUserAndInterlocutor();
         _dbHelper = new DbHelper(this);
 
-        SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
-        user = preferences.getString(Value.userNamePreferenceName, "no name");
+        // UI initialization
+        initializeToolbar();
+        initializeSendingArea();
+        initializeMessages();
+    }
 
-        Intent intent = getIntent();
-        setSender(intent.getStringExtra("sender"));
+    public boolean sendChatMessage() {
+        String msg = _enterText.getText().toString();
+        String currentTime = _simpleDateFormat.format(Calendar.getInstance().getTime());
 
+        if (!msg.equalsIgnoreCase("")) {
+            _chatAdapter.add(new ChatMessage(_mine, msg, _interlocutor, _user, currentTime));
+            _chatAdapter.notifyDataSetChanged();
+            // reset the input box
+            _enterText.setText("");
+        }
+
+        // save the sent message into database
+        _dbHelper.insertDb(_interlocutor, _user, msg, currentTime);
+        Log.d(TAG, "sent message saved to db at " + currentTime);
+
+        return true;
+    }
+
+    // receive message from FirebaseMessagingService
+    private BroadcastReceiver _broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "receive broadcast");
+            // display the received message on chatting page
+            String[] message = intent.getStringArrayExtra("message");
+            // sender, message, time
+            _chatAdapter.add(new ChatMessage(!_mine, message[1], message[0], _user, _simpleDateFormat.format(new Date())));
+            _chatAdapter.notifyDataSetChanged();
+        }
+    };
+
+    public void loadHistory(){
+        String[] selectionValues = new String[2];
+        selectionValues[0] = selectionValues[1] = _interlocutor;
+        String receiver, sender, message, datetime;
+
+        _dbHelper.setSelection("SENDER = ? OR RECEIVER = ?");
+        _dbHelper.setSelectionValue(selectionValues);
+        Cursor c = _dbHelper.readDb();
+
+        if(c.getCount() == 0)
+            return;
+
+        while(true){
+            sender = c.getString(c.getColumnIndex("SENDER"));
+            receiver = c.getString(c.getColumnIndex("RECEIVER"));
+            message = c.getString(c.getColumnIndex("MESSAGE"));
+            datetime = c.getString(c.getColumnIndex("TIME"));
+            if (sender.equals(_interlocutor)){
+                Log.d(TAG, "receive message");
+                _chatAdapter.insert((new ChatMessage(!_mine, message, sender, receiver, datetime)), 0);
+            }
+            else if (receiver.equals(_interlocutor)){
+                _chatAdapter.insert((new ChatMessage(_mine, message, sender, receiver, datetime)), 0);
+            }
+            if(c.isLast())
+                return;
+            c.moveToNext();
+        }
+    }
+
+    @Override
+    public void onPause(){
+        Log.d(TAG, "onPause");
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(_broadcastReceiver);
+    }
+
+    @Override
+    public void onResume(){
+        Log.d(TAG, "onResume");
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(_broadcastReceiver,
+                new IntentFilter("new-message"));
+        loadHistory();
+    }
+
+    @NonNull
+    @Override
+    public ChatPresenter createPresenter() {
+        return new ChatPresenter();
+    }
+
+    public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.chat_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "Menu item clicked " + item.toString());
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_check_progress:
+                goToProgressList();
+                return true;
+            case R.id.action_add_reminder:
+                goToAddReminder();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initializeToolbar() {
         Toolbar bar = (Toolbar) findViewById(R.id.toolbar_chat);
         setSupportActionBar(bar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(sender);
+        getSupportActionBar().setTitle(_interlocutor);
+    }
 
+    private void initializeSendingArea() {
         _enterText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -99,7 +213,9 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
                 sendChatMessage();
             }
         });
+    }
 
+    private void initializeMessages() {
         _msgArrayList = new ArrayList<>();
 
         _msgListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
@@ -117,121 +233,12 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         _msgListView.setAdapter(_chatAdapter);
     }
 
-    public boolean sendChatMessage() {
-        String msg = _enterText.getText().toString();
-        Calendar calendar = Calendar.getInstance();
-        Date currentTime = calendar.getTime();
-        if (!msg.equalsIgnoreCase("")) {
-            _chatAdapter.add(new ChatMessage(_mine, msg, sender, user, sdf.format(currentTime)));
-            _chatAdapter.notifyDataSetChanged();
-            // reset the input box
-            _enterText.setText("");
-        }
-        // save the sent message into database
-        _dbHelper.insertDb(sender, user, msg, sdf.format(currentTime));
-        Log.d(TAG, "saving to db " + sdf.format(currentTime));
-        return true;
-    }
+    private void setUserAndInterlocutor() {
+        SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+        _user = preferences.getString(Value.userNamePreferenceName, "no name");
 
-    // receive message from FirebaseMessagingService
-    private BroadcastReceiver _broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "receive broadcast");
-            // display the received message on chatting page
-            String[] message = intent.getStringArrayExtra("message");
-            // sender, message, time
-            _chatAdapter.add(new ChatMessage(!_mine, message[1], message[0], user, sdf.format(new Date())));
-            _chatAdapter.notifyDataSetChanged();
-        }
-    };
-
-    public void setSender(String s) {
-        this.sender = s;
-    }
-
-    public void loadHistory(){
-        String[] temp = new String[2];
-        temp[0] = temp[1] = sender;
-        String r, s, m, t;
-
-        _dbHelper.setSelection("SENDER = ? OR RECEIVER = ?");
-        _dbHelper.setSelectionValue(temp);
-        Cursor c = _dbHelper.readDb();
-
-        if(c.getCount() == 0)
-            return;
-
-        while(true){
-            s = c.getString(c.getColumnIndex("SENDER"));
-            r = c.getString(c.getColumnIndex("RECEIVER"));
-            m = c.getString(c.getColumnIndex("MESSAGE"));
-            t = c.getString(c.getColumnIndex("TIME"));
-            if (s.equals(sender)){
-                Log.d(TAG, "receive message");
-                _chatAdapter.insert((new ChatMessage(!_mine, m, s, r, t)), 0);
-            }
-            else if (!s.equals(sender)){  // s is a receiver
-                _chatAdapter.insert((new ChatMessage(_mine, m, s, r, t)), 0);
-            }
-            if(c.isLast())
-                return;
-            c.moveToNext();
-        }
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.d(TAG, "---ON PAUSE---");
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(_broadcastReceiver);
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        // Register to receive messages.
-        // Registering an observer, _broadcastReceiver, to receive Intents
-        // with actions named "custom-event-name".
-        LocalBroadcastManager.getInstance(this).registerReceiver(_broadcastReceiver,
-                new IntentFilter("new-message"));
-        loadHistory();
-        Log.d(TAG, "---ON RESUME---");
-    }
-
-    @NonNull
-    @Override
-    public ChatPresenter createPresenter() {
-        return new ChatPresenter(this);
-    }
-
-    public void showError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d(TAG, "menu inflating");
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.chat_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "Menu item clicked");
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            case R.id.action_check_progress:
-                goToProgressList();
-                return true;
-            case R.id.action_add_reminder:
-                goToAddReminder();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+        Intent intent = getIntent();
+        _interlocutor = intent.getStringExtra("sender");
     }
 
     private void goToProgressList() {
