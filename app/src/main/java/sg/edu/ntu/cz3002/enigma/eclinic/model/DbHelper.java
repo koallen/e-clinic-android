@@ -16,7 +16,9 @@ import java.util.List;
  * Database helper to handle all db related staffs
  */
 public class DbHelper extends SQLiteOpenHelper {
-    // If you change the database schema, you must increment the database version.
+
+    private static final String TAG = "DbHelper";
+
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "eClinic.db";
     private static final String TABLE_NAME = "ChatTable";
@@ -44,7 +46,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_NAME + " (" +
                 COLUMN_NAME_ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
-                COLUMN_NAME_TIME + " DATETIME" + COMMA_SEP +
+                COLUMN_NAME_TIME + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" + COMMA_SEP +
                 COLUMN_NAME_RECEIVER + TEXT_TYPE + COMMA_SEP +
                 COLUMN_NAME_SENDER + TEXT_TYPE + COMMA_SEP +
                 COLUMN_NAME_MSG + TEXT_TYPE + " )";
@@ -89,20 +91,17 @@ public class DbHelper extends SQLiteOpenHelper {
         this.selectionValue = s;
     }
 
-    public boolean insertDb (String receiver, String sender, String msg, String time){
-        // Gets the data repository in write mode
+    public boolean insertDb (String receiver, String sender, String msg){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Log.d("INSERT", msg);
+        Log.d(TAG, "inserting: " + msg);
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME_RECEIVER, receiver);
         values.put(COLUMN_NAME_SENDER, sender);
         values.put(COLUMN_NAME_MSG, msg);
-        values.put(COLUMN_NAME_TIME, time);
         db.insert(TABLE_NAME, null, values);
         // Insert the new row, returning the primary key value of the new row
-        //long newRowId = db.insert(TABLE_NAME, null, values);
         return true;
     }
 

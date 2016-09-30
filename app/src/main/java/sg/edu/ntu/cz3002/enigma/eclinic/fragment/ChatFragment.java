@@ -87,7 +87,6 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     public void getChatList(){
         String text1 = "From", text2 = "Message";
         _chatListAdapter.add(new ChatListElement(text1, text2));
-//        _chatListAdapter.insert(new ChatListElement(text1, text2), 0);
     }
 
     public void showError(String s){
@@ -114,7 +113,6 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
         _chatListAdapter.clear();
         for(int i = 0; i < temp.size(); i += 2) {
             if(!temp.get(i).equals(_user))
-//                _chatListAdapter.add(new ChatListElement(temp.get(i), temp.get(i+1)));
                   _chatListAdapter.insert(new ChatListElement(temp.get(i), temp.get(i+1)), 0);
         }
     }
@@ -124,18 +122,6 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "receive broadcast");
-            // display the received message on chat list
-//            String[] message = intent.getStringArrayExtra("message");
-//            int oldChat = 0;
-//            for(ChatListElement element : _chatList){
-//                if (element.getMsgFrom() == message[1]){
-//                    oldChat = 1;
-//                    _chatListAdapter.remove(element);
-//                    break;
-//                }
-//            }
-//            // sender, message
-//            _chatListAdapter.add(new ChatListElement(message[0], message[1]));
             loadHistory();
         }
     };

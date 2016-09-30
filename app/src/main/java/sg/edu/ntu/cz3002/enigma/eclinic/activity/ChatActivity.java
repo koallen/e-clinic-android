@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
@@ -90,7 +92,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         }
 
         // save the sent message into database
-        _dbHelper.insertDb(_interlocutor, _user, msg, currentTime);
+        _dbHelper.insertDb(_interlocutor, _user, msg);
         Log.d(TAG, "sent message saved to db at " + currentTime);
 
         return true;
@@ -113,6 +115,8 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         String[] selectionValues = new String[2];
         selectionValues[0] = selectionValues[1] = _interlocutor;
         String receiver, sender, message, datetime;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         _dbHelper.setSelection("SENDER = ? OR RECEIVER = ?");
         _dbHelper.setSelectionValue(selectionValues);
@@ -126,6 +130,10 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             receiver = c.getString(c.getColumnIndex("RECEIVER"));
             message = c.getString(c.getColumnIndex("MESSAGE"));
             datetime = c.getString(c.getColumnIndex("TIME"));
+            try {
+                Date date = simpleDateFormat.parse(datetime);
+                datetime = _simpleDateFormat.format(date);
+            } catch (Exception exception) { }
             if (sender.equals(_interlocutor)){
                 Log.d(TAG, "receive message");
                 _chatAdapter.insert((new ChatMessage(!_mine, message, sender, receiver, datetime)), 0);

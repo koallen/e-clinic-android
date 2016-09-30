@@ -37,9 +37,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             // save the message to database
             DbHelper dbHelper = new DbHelper(this);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            String datetime = simpleDateFormat.format(Calendar.getInstance().getTime());
-            dbHelper.insertDb(receiver, sender, messageContent, datetime);
+            dbHelper.insertDb(receiver, sender, messageContent);
 
             // notify activity/fragment to update their UI
             String[] message = new String[2];
