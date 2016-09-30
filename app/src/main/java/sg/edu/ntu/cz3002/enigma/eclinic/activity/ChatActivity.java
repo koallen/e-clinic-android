@@ -104,7 +104,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             // display the received message on chatting page
             String[] message = intent.getStringArrayExtra("message");
             // sender, message, time
-            _chatAdapter.add(new ChatMessage(!_mine, message[1], message[0], _user, _simpleDateFormat.format(new Date())));
+            _chatAdapter.add(new ChatMessage(!_mine, message[0], message[1], _user, _simpleDateFormat.format(new Date())));
             _chatAdapter.notifyDataSetChanged();
         }
     };
