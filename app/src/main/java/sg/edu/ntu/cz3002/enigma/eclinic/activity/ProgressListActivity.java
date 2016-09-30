@@ -96,7 +96,7 @@ public class ProgressListActivity extends MvpActivity<ProgressListView, Progress
     @Override
     public void displayProgress(List<Progress> progressList) {
         ArrayAdapter<Progress> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, progressList);
+                R.layout.progress_list, progressList);
         _listView.setAdapter(adapter);
     }
 
