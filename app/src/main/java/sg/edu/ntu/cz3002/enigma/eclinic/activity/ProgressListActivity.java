@@ -11,11 +11,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,6 +28,7 @@ import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
 import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.Progress;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.Reservation;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ProgressListPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ProgressListView;
 
@@ -102,8 +108,18 @@ public class ProgressListActivity extends MvpActivity<ProgressListView, Progress
 
     @Override
     public void displayProgress(List<Progress> progressList) {
-        ArrayAdapter<Progress> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, progressList);
+        ArrayList<HashMap<String, String>> _progressList;
+        _progressList = new ArrayList<>();
+        for (Progress _progress : progressList){
+            String _content = _progress.getContent();
+            String _time = _progress.getTime();
+            HashMap<String, String> _progressMap = new HashMap<>();
+            _progressMap.put("content", _content);
+            _progressMap.put("datetime", _time);
+            _progressList.add(_progressMap);
+        }
+
+        ListAdapter adapter = new SimpleAdapter(this, _progressList, R.layout.progress_list, new String[]{"content", "datetime"}, new int[]{R.id.content, R.id.time});
         _listView.setAdapter(adapter);
     }
 

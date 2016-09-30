@@ -14,4 +14,10 @@ public class Progress {
     public String toString() {
         return id + " " + doctor + " " + patient + " " + content;
     }
+    public String getContent(){
+        return content;
+    }
+    public String getTime(){
+        return datetime;
+    }
 }
