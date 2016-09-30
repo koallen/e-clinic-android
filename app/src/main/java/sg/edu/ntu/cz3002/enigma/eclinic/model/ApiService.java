@@ -2,11 +2,6 @@ package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
 import java.util.List;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -18,7 +13,7 @@ import rx.Observable;
 /**
  * Api definitions
  */
-public interface ApiService {
+interface ApiService {
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json"
@@ -60,7 +55,7 @@ public interface ApiService {
             "Content-Type: application/json"
     })
     @POST("messages/")
-    Observable<Message> sendMessage(@Body Message msg);
+    Observable<ResponseBody> sendMessage(@Body Message msg);
 
     @Headers({
             "Accept: application/json",

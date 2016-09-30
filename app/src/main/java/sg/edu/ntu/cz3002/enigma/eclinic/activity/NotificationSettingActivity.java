@@ -13,7 +13,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.R;
 import sg.edu.ntu.cz3002.enigma.eclinic.fragment.NotificationSettingFragment;
 
 /**
- * Created by HuaBa on 23/09/16.
+ * NotificationSettingActivity
  */
 public class NotificationSettingActivity extends AppCompatActivity {
 
@@ -24,25 +24,31 @@ public class NotificationSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notificationsetting);
 
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_notification_setting);
-        setSupportActionBar(bar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Notification Settings");
-
-        // Display the fragment as the main content.
-        getFragmentManager().beginTransaction()
-                .replace(R.id.notification_frame, new NotificationSettingFragment())
-                .commit();
+        // UI initialization
+        initializeToolbar();
+        initializeNotificationSettingFragment();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "Menu item clicked");
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initializeToolbar() {
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_notification_setting);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Notification Settings");
+    }
+
+    private void initializeNotificationSettingFragment() {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.notification_frame, new NotificationSettingFragment())
+                .commit();
     }
 }

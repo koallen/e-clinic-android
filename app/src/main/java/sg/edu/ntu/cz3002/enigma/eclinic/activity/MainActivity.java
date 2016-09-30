@@ -26,7 +26,6 @@ import sg.edu.ntu.cz3002.enigma.eclinic.fragment.SettingFragment;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private int _currentTab = R.id.reminders_button;
 
     @BindView(R.id.bottomBar) BottomBar _bottombar;
     ReminderFragment _reminderFragment;
@@ -44,41 +43,39 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "Auth token exists");
             setContentView(R.layout.activity_main);
             ButterKnife.bind(this);
-            // set up the UI components
-            setFragments();
-            setBottomBar();
+
+            // UI initialization
+            initializeFragments();
+            initializeBottomBar();
         } else {
             // go to LoginActivity
             Log.d(TAG, "Auth token doesn't exist");
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
-
-        // ????still need or not? I think this part is for implementing the get-back function which is already done
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
-            String s= bundle.getString("from");
-            if(s.equals("chat")){
-                switchTo(_chatFragment);
-            }
-            if(s.equals("portfolio")){
-                switchTo(_settingFragment);
-            }
-        }
     }
 
-    private void setBottomBar() {
+    private void initializeBottomBar() {
         _bottombar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 Log.d(TAG, "tab selected " + tabId);
-                changeTab(tabId);
-                _currentTab = _bottombar.getCurrentTabId();
+                switch (tabId) {
+                    case R.id.reminders_button:
+                        switchTo(_reminderFragment);
+                        break;
+                    case R.id.chats_button:
+                        switchTo(_chatFragment);
+                        break;
+                    case R.id.settings_button:
+                        switchTo(_settingFragment);
+                        break;
+                }
             }
         });
     }
 
-    private void setFragments() {
+    private void initializeFragments() {
         _reminderFragment = ReminderFragment.newInstance(0);
         _chatFragment = ChatFragment.newInstance(0);
         _settingFragment = SettingFragment.newInstance(0);
@@ -94,19 +91,5 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.contentContainer, fragment);
         transaction.commit();
-    }
-
-    private void changeTab(int tabId) {
-        switch (tabId) {
-            case R.id.reminders_button:
-                switchTo(_reminderFragment);
-                break;
-            case R.id.chats_button:
-                switchTo(_chatFragment);
-                break;
-            case R.id.settings_button:
-                switchTo(_settingFragment);
-                break;
-        }
     }
 }

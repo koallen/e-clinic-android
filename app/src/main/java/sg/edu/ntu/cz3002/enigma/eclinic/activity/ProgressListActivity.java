@@ -47,11 +47,6 @@ public class ProgressListActivity extends MvpActivity<ProgressListView, Progress
         setContentView(R.layout.activity_progress_list);
         ButterKnife.bind(this);
 
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_progress_list);
-        setSupportActionBar(bar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Progress List");
-
         // get patient and doctor name
         SharedPreferences preference = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
         _patientName = preference.getString(Value.userNamePreferenceName, "no name");
@@ -60,14 +55,9 @@ public class ProgressListActivity extends MvpActivity<ProgressListView, Progress
             _doctorName = extras.getString("doctor");
         }
 
-        _swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.d(TAG, "Refreshing");
-                presenter.getProgress(_patientName, _doctorName);
-                _swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+        // UI initialization
+        initializeToolbar();
+        initializeSwipeRefreshLayout();
     }
 
     @NonNull
@@ -84,13 +74,30 @@ public class ProgressListActivity extends MvpActivity<ProgressListView, Progress
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "Menu item clicked");
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initializeToolbar() {
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_progress_list);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Progress List");
+    }
+
+    private void initializeSwipeRefreshLayout() {
+        _swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d(TAG, "Refreshing");
+                presenter.getProgress(_patientName, _doctorName);
+                _swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
