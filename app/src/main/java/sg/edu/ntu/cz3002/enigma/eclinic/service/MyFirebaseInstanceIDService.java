@@ -16,7 +16,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.model.ApiManager;
  * Created by koAllen on 24/8/16.
  */
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
-    private static String TAG = "MyFirebaseInstanceIDService";
+    private static String TAG = "FCMIDService";
 
     @Override
     public void onTokenRefresh() {
@@ -24,18 +24,14 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
-        sendRegistrationToServer(refreshedToken);
+        saveCurrentToken(refreshedToken);
     }
 
-    private void sendRegistrationToServer(String refreshedToken) {
+    private void saveCurrentToken(String newToken) {
         SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
-        if (preferences.contains(Value.userNamePreferenceName)) {
-            String username = preferences.getString(Value.userNamePreferenceName, "none");
-            Observable<ResponseBody> response = ApiManager.getInstance().sendMessageToken(username, refreshedToken);
-            // TODO: send token to server
-        }
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Value.messageTokenPreferenceName, newToken);
+        editor.apply();
+        Log.d(TAG, "token saved to shared preference");
     }
 }

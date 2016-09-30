@@ -108,15 +108,16 @@ public class ProgressListActivity extends MvpActivity<ProgressListView, Progress
 
     @Override
     public void displayProgress(List<Progress> progressList) {
+        Log.d(TAG, "displaying progress");
         ArrayList<HashMap<String, String>> _progressList;
         _progressList = new ArrayList<>();
-        for (Progress _progress : progressList){
-            String _content = _progress.getContent();
-            String _time = _progress.getTime();
-            HashMap<String, String> _progressMap = new HashMap<>();
-            _progressMap.put("content", _content);
-            _progressMap.put("datetime", _time);
-            _progressList.add(_progressMap);
+        for (Progress progress : progressList){
+            String content = progress.getContent();
+            String time = progress.getTime();
+            HashMap<String, String> progressMap = new HashMap<>();
+            progressMap.put("content", content);
+            progressMap.put("datetime", time);
+            _progressList.add(progressMap);
         }
 
         ListAdapter adapter = new SimpleAdapter(this, _progressList, R.layout.progress_list, new String[]{"content", "datetime"}, new int[]{R.id.content, R.id.time});

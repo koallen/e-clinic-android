@@ -71,12 +71,50 @@ public class LoginPresenter extends MvpBasePresenter<LoginView> {
                         editor.putString(Value.userNamePreferenceName, username);
                         editor.apply();
 
+                        updateMessageToken(username);
+                    }
+                });
+    }
+
+    private void updateMessageToken(final String username) {
+        Log.d(TAG, "updating token");
+        SharedPreferences preferences = _context.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+        String token = preferences.getString(Value.messageTokenPreferenceName, "no token");
+        Log.d(TAG, "token: " + token);
+        Observable<ResponseBody> response = ApiManager.getInstance().sendMessageToken(username, token);
+        response.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof HttpException) {
+                            Log.d(TAG, HTTP_ERROR_MESSAGE);
+                            if (isViewAttached()) {
+                                getView().showError(HTTP_ERROR_MESSAGE);
+                            }
+                        } else {
+                            Log.d(TAG, NETWORK_ERROR_MESSAGE);
+                            if (isViewAttached()) {
+                                getView().showError(NETWORK_ERROR_MESSAGE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
                         testIdentity(username);
                     }
                 });
     }
 
     private void testIdentity(final String username) {
+        Log.d(TAG, "testing identity");
         Observable<List<Doctor>> response = ApiManager.getInstance().testIdentity(username);
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

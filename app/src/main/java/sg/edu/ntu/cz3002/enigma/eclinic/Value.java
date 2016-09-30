@@ -8,4 +8,5 @@ public class Value {
     public static final String authTokenPreferenceName = "authToken";
     public static final String userNamePreferenceName = "userName";
     public static final String userTypePreferenceName = "userType";
+    public static final String messageTokenPreferenceName = "messageToken";
 }
