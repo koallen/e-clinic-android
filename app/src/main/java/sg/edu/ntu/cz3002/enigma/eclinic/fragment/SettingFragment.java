@@ -22,6 +22,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.Value;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.LoginActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.NotificationSettingActivity;
 import sg.edu.ntu.cz3002.enigma.eclinic.activity.UserProfileActivity;
+import sg.edu.ntu.cz3002.enigma.eclinic.model.DbHelper;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.SettingItem;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.SettingPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.SettingView;
@@ -32,11 +33,13 @@ import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.SettingArrayAdapter;
  */
 public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> implements SettingView {
     private static final String TAG = "SettingFragment";
+    private DbHelper _dbHelper;
     // This is the Adapter being used to display the list's data
     ArrayAdapter mAdapter;
     @BindView(R.id.listview) ListView listView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        _dbHelper = new DbHelper(this.getContext());
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.bind(this, view);
 
@@ -65,6 +68,8 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
                         break;
                     case 2:
                         presenter.clear();
+//                        _dbHelper.deleteDb();
+                        getActivity().deleteDatabase("eClinic.db");
                         Toast.makeText(getActivity(), "Sign Out Successful", Toast.LENGTH_LONG).show();
                         Intent intent2 = new Intent(getActivity(), LoginActivity.class);
                         startActivity(intent2);

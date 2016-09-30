@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 
@@ -56,6 +57,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public void deleteDb(){
+//        this.getWritableDatabase().execSQL(SQL_DELETE_ENTRIES);
+    
     }
 
     @Override
