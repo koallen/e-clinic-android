@@ -19,7 +19,6 @@ import rx.Observable;
 public class ApiManager {
 
     private static ApiManager ourInstance = new ApiManager();
-    private Retrofit _retrofit;
     private ApiService _apiService;
     private static final String _url = "http://172.20.25.192:8000/api/";
 
@@ -28,12 +27,12 @@ public class ApiManager {
     }
 
     private ApiManager() {
-        _retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(_url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        _apiService = _retrofit.create(ApiService.class);
+        _apiService = retrofit.create(ApiService.class);
     }
 
     public Observable<AuthToken> authenticate(String username, String password) {
@@ -49,7 +48,7 @@ public class ApiManager {
         return _apiService.signup(new User(username, password));
     }
 
-    public Observable<Message> sendMessage(String msg, String time, String receiver, String sender){
+    public Observable<ResponseBody> sendMessage(String msg, String receiver, String sender){
         return _apiService.sendMessage(new Message(sender, receiver, msg));
     }
 
