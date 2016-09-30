@@ -143,6 +143,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     public void onPause(){
         Log.d(TAG, "onPause");
         super.onPause();
+        Log.d(TAG, "---ON PAUSE---");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(_broadcastReceiver);
     }
 

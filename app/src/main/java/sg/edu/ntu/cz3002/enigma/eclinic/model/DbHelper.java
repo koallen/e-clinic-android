@@ -89,7 +89,7 @@ public class DbHelper extends SQLiteOpenHelper {
         this.selectionValue = s;
     }
 
-    public boolean insertDb (String receiver, String sender, String msg){
+    public boolean insertDb (String receiver, String sender, String msg, String time){
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -99,7 +99,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME_RECEIVER, receiver);
         values.put(COLUMN_NAME_SENDER, sender);
         values.put(COLUMN_NAME_MSG, msg);
-        values.put(COLUMN_NAME_TIME, new Date().getTime());
+        values.put(COLUMN_NAME_TIME, time);
         db.insert(TABLE_NAME, null, values);
         // Insert the new row, returning the primary key value of the new row
         //long newRowId = db.insert(TABLE_NAME, null, values);
