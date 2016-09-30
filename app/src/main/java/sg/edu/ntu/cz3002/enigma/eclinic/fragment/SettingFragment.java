@@ -66,7 +66,7 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
                     case 2:
                         presenter.clear();
 //                        _dbHelper.deleteDb();
-                        getActivity().deleteDatabase("ChatTable.db");
+                        getActivity().deleteDatabase("eClinic.db");
                         Toast.makeText(getActivity(), "Sign Out Successful", Toast.LENGTH_LONG).show();
                         Intent intent2 = new Intent(getActivity(), LoginActivity.class);
                         startActivity(intent2);
