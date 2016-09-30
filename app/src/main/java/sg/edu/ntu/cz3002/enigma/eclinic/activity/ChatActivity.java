@@ -129,7 +129,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         }
         // save the sent message into database
         _dbHelper.insertDb(sender, user, msg, sdf.format(currentTime));
-        Log.d(TAG, "saving to db " + sdf.format(currentTime));      // TODO I HAVE NO IDEA WHY EACH TIME I CREATE A NEW DATE OBJ, IT RETURNS THE SAME VALUE
+        Log.d(TAG, "saving to db " + sdf.format(currentTime));
         return true;
     }
 
