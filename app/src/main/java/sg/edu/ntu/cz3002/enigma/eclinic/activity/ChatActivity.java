@@ -125,6 +125,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         if(c.getCount() == 0)
             return;
 
+        _chatAdapter.clear();
         while(true){
             sender = c.getString(c.getColumnIndex("SENDER"));
             receiver = c.getString(c.getColumnIndex("RECEIVER"));
