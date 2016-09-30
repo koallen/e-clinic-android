@@ -28,6 +28,7 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import butterknife.BindView;
@@ -54,7 +55,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     private String user;
     private static DbHelper _dbHelper = null;
     private IntentFilter filter = new IntentFilter();
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM");
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @BindView(R.id.messageEditText)
     EditText _enterText;
@@ -118,15 +119,17 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
 
     public boolean sendChatMessage() {
         String msg = _enterText.getText().toString();
+        Calendar calendar = Calendar.getInstance();
+        Date currentTime = calendar.getTime();
         if (!msg.equalsIgnoreCase("")) {
-            _chatAdapter.add(new ChatMessage(_mine, msg, sender, user, sdf.format(new Date())));
+            _chatAdapter.add(new ChatMessage(_mine, msg, sender, user, sdf.format(currentTime)));
             _chatAdapter.notifyDataSetChanged();
             // reset the input box
             _enterText.setText("");
         }
         // save the sent message into database
-        _dbHelper.insertDb(sender, user, msg, new Date().getTime());
-        System.out.println("save to db" + sdf.format(new Date()));      // TODO I HAVE NO IDEA WHY EACH TIME I CREATE A NEW DATE OBJ, IT RETURNS THE SAME VALUE
+        _dbHelper.insertDb(sender, user, msg, sdf.format(currentTime));
+        Log.d(TAG, "saving to db " + sdf.format(currentTime));      // TODO I HAVE NO IDEA WHY EACH TIME I CREATE A NEW DATE OBJ, IT RETURNS THE SAME VALUE
         return true;
     }
 
@@ -150,8 +153,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     public void loadHistory(){
         String[] temp = new String[2];
         temp[0] = temp[1] = sender;
-        String r, s, m;
-        long t;
+        String r, s, m, t;
 
         _dbHelper.setSelection("SENDER = ? OR RECEIVER = ?");
         _dbHelper.setSelectionValue(temp);
@@ -164,15 +166,13 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             s = c.getString(c.getColumnIndex("SENDER"));
             r = c.getString(c.getColumnIndex("RECEIVER"));
             m = c.getString(c.getColumnIndex("MESSAGE"));
-            t = Long.parseLong(c.getString(c.getColumnIndex("TIME")));
-            Date date = new Date(t);
-            System.out.println(sdf.format(date));
+            t = c.getString(c.getColumnIndex("TIME"));
             if (s.equals(sender)){
                 Log.d(TAG, "receive message");
-                _chatAdapter.insert((new ChatMessage(!_mine, m, s, r, sdf.format(date))), 0);
+                _chatAdapter.insert((new ChatMessage(!_mine, m, s, r, t)), 0);
             }
             else if (!s.equals(sender)){  // s is a receiver
-                _chatAdapter.insert((new ChatMessage(_mine, m, s, r, sdf.format(date))), 0);
+                _chatAdapter.insert((new ChatMessage(_mine, m, s, r, t)), 0);
             }
             if(c.isLast())
                 return;

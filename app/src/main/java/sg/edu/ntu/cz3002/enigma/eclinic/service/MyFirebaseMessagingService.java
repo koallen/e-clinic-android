@@ -9,6 +9,8 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import sg.edu.ntu.cz3002.enigma.eclinic.Value;
@@ -19,6 +21,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.model.DbHelper;
  */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "FCMService";
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -42,7 +45,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             DbHelper dbHelper = new DbHelper(this);
             SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
             String user = preferences.getString(Value.userNamePreferenceName, "no name");
-            dbHelper.insertDb(user, broadcastMessage[0], broadcastMessage[1], new Date().getTime());
+            dbHelper.insertDb(user, broadcastMessage[0], broadcastMessage[1], simpleDateFormat.format(Calendar.getInstance().getTime()));
+            Log.d(TAG, "inserted to database " + simpleDateFormat.format(Calendar.getInstance().getTime()));
 
             // notify activity/fragment to update their UI
             broadcastMessage(broadcastMessage);

@@ -56,6 +56,7 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
         Log.d(TAG, "Adding reminder");
         //TODO: implement add reminder logic
         Toast.makeText(this, "Added new reminder", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @OnClick(R.id.add_reminder_date)

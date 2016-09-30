@@ -17,14 +17,14 @@ import java.util.List;
  */
 public class DbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "eClinic.db";
-    public static final String TABLE_NAME = "ChatTable";
-    public static final String COLUMN_NAME_RECEIVER = "RECEIVER";
-    public static final String COLUMN_NAME_SENDER = "SENDER";
-    public static final String COLUMN_NAME_MSG = "MESSAGE";
-    public static final String COLUMN_NAME_TIME = "TIME";
-    public static final String COLUMN_NAME_ID = "ID";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "eClinic.db";
+    private static final String TABLE_NAME = "ChatTable";
+    private static final String COLUMN_NAME_RECEIVER = "RECEIVER";
+    private static final String COLUMN_NAME_SENDER = "SENDER";
+    private static final String COLUMN_NAME_MSG = "MESSAGE";
+    private static final String COLUMN_NAME_TIME = "TIME";
+    private static final String COLUMN_NAME_ID = "ID";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
 
@@ -42,12 +42,12 @@ public class DbHelper extends SQLiteOpenHelper {
     private String sortOrder = COLUMN_NAME_TIME + " DESC";
 
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + TABLE_NAME +
-                    " (" + COLUMN_NAME_ID+ " INTEGER PRIMARY KEY," +
-                    COLUMN_NAME_TIME + " LONG" + COMMA_SEP +
-                    COLUMN_NAME_RECEIVER + TEXT_TYPE + COMMA_SEP +
-                    COLUMN_NAME_SENDER + TEXT_TYPE + COMMA_SEP +
-                    COLUMN_NAME_MSG + TEXT_TYPE + " )";
+            "CREATE TABLE " + TABLE_NAME + " (" +
+                COLUMN_NAME_ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
+                COLUMN_NAME_TIME + " DATETIME" + COMMA_SEP +
+                COLUMN_NAME_RECEIVER + TEXT_TYPE + COMMA_SEP +
+                COLUMN_NAME_SENDER + TEXT_TYPE + COMMA_SEP +
+                COLUMN_NAME_MSG + TEXT_TYPE + " )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -89,7 +89,7 @@ public class DbHelper extends SQLiteOpenHelper {
         this.selectionValue = s;
     }
 
-    public boolean insertDb (String receiver, String sender, String msg, long time){
+    public boolean insertDb (String receiver, String sender, String msg, String time){
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
 
