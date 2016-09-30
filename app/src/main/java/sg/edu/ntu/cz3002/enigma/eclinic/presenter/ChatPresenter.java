@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import okhttp3.ResponseBody;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
@@ -18,14 +19,10 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
  * Created by ZWL on 12/9/16.
  */
 public class ChatPresenter extends MvpBasePresenter<ChatView>{
-    private Context _context;
+
     private static final String TAG = "ChatPresenter";
     private static final String HTTP_ERROR_MESSAGE = "Wrong credentials";
     private static final String NETWORK_ERROR_MESSAGE = "Network error";
-
-    public ChatPresenter(Context context){
-        _context = context;
-    }
 
     public void detachView(boolean retainPresenterInstance){
         super.detachView(retainPresenterInstance);
@@ -35,11 +32,11 @@ public class ChatPresenter extends MvpBasePresenter<ChatView>{
     }
 
     public void send(String message, String from_user, String to_user){
-        Observable<Message> response = ApiManager.getInstance().sendMessage(message, "", to_user, from_user);
+        Observable<ResponseBody> response = ApiManager.getInstance().sendMessage(message, to_user, from_user);
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Message>() {
+                .subscribe(new Subscriber<ResponseBody>() {
                     @Override
                     public void onCompleted() {
 
@@ -47,21 +44,11 @@ public class ChatPresenter extends MvpBasePresenter<ChatView>{
 
                     @Override
                     public void onError(Throwable e) {
-                        if (e instanceof HttpException) {
-                            Log.d(TAG, HTTP_ERROR_MESSAGE);
-                            if (isViewAttached()) {
-                                getView().showError(HTTP_ERROR_MESSAGE);
-                            }
-                        } else {
-                            Log.d(TAG, NETWORK_ERROR_MESSAGE);
-                            if (isViewAttached()) {
-                                getView().showError(NETWORK_ERROR_MESSAGE);
-                            }
-                        }
+
                     }
 
                     @Override
-                    public void onNext(Message message) {
+                    public void onNext(ResponseBody responseBody) {
 
                     }
                 });

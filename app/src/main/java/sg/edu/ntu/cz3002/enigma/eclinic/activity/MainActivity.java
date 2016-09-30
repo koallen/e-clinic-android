@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
             ButterKnife.bind(this);
 
             // UI initialization
-            initializeBottomBar();
             initializeFragments();
+            initializeBottomBar();
         } else {
             // go to LoginActivity
             Log.d(TAG, "Auth token doesn't exist");

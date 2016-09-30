@@ -34,7 +34,6 @@ import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ChatPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.ChatView;
 import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatListAdapter;
 import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatListElement;
-import sg.edu.ntu.cz3002.enigma.eclinic.viewmodel.ChatMessage;
 
 /**
  * chat fragement.
@@ -144,7 +143,7 @@ public class ChatFragment extends MvpFragment<ChatView, ChatPresenter> implement
     @NonNull
     @Override
     public ChatPresenter createPresenter(){
-        return new ChatPresenter(this.getContext());
+        return new ChatPresenter();
     }
 
     public static ChatFragment newInstance(int index) {
