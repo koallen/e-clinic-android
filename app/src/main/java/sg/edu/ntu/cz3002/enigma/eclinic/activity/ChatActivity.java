@@ -89,12 +89,11 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             _chatAdapter.notifyDataSetChanged();
             // reset the input box
             _enterText.setText("");
+
+            // save the sent message into database
+            _dbHelper.insertDb(_interlocutor, _user, msg);
+            Log.d(TAG, "sent message saved to db at " + currentTime);
         }
-
-        // save the sent message into database
-        _dbHelper.insertDb(_interlocutor, _user, msg);
-        Log.d(TAG, "sent message saved to db at " + currentTime);
-
         return true;
     }
 
