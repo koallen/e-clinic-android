@@ -45,10 +45,8 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
         setContentView(R.layout.activity_addreminder);
         ButterKnife.bind(this);
 
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_progress_list);
-        setSupportActionBar(bar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Reminder");
+        // UI initialization
+        initializeToolbar();
     }
 
     @OnClick(R.id.add_reminder_button)
@@ -101,5 +99,12 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         _timeTextView.setText(hourOfDay + ":" + minute);
+    }
+
+    private void initializeToolbar() {
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_progress_list);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add Reminder");
     }
 }
