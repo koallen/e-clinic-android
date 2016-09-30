@@ -93,7 +93,12 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             // save the sent message into database
             _dbHelper.insertDb(_interlocutor, _user, msg);
             Log.d(TAG, "sent message saved to db at " + currentTime);
+
+            presenter.send(msg, _user, _interlocutor);
         }
+
+
+
         return true;
     }
 
