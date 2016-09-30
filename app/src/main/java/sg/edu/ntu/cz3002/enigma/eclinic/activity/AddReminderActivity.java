@@ -54,9 +54,8 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
     @OnClick(R.id.add_reminder_button)
     public void onAddReminderButtonClicked(View view) {
         Log.d(TAG, "Adding reminder");
-        //TODO: implement add reminder logic
+        //TODO: implement add reminder logic (call presenter)
         Toast.makeText(this, "Added new reminder", Toast.LENGTH_SHORT).show();
-        finish();
     }
 
     @OnClick(R.id.add_reminder_date)
@@ -86,7 +85,6 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "Menu item clicked");
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);

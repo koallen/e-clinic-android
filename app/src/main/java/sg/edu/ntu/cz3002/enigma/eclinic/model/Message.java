@@ -1,7 +1,7 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
 /**
- * Created by ZWL on 20/9/16.
+ * Message
  */
 public class Message {
     private String from_user;
@@ -14,4 +14,15 @@ public class Message {
         this.message = message;
     }
 
+    public String getSender() {
+        return from_user;
+    }
+
+    public String getReceiver() {
+        return to_user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }
