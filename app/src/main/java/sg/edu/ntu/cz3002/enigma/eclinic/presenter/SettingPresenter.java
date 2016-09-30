@@ -21,7 +21,9 @@ public class SettingPresenter extends MvpBasePresenter<SettingView> {
     public void clear(){
         SharedPreferences prefs = _context.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE); // here you get your prefrences by either of two methods
         SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
+        editor.remove(Value.userNamePreferenceName);
+        editor.remove(Value.authTokenPreferenceName);
+        editor.remove(Value.userTypePreferenceName);
         editor.commit();
     }
     public void detachView(boolean retainPresenterInstance){

@@ -97,8 +97,6 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             presenter.send(msg, _user, _interlocutor);
         }
 
-
-
         return true;
     }
 

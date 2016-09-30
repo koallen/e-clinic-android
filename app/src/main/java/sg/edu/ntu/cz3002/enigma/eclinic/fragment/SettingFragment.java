@@ -39,13 +39,16 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.bind(this, view);
+
         SharedPreferences prefs = getActivity().getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE); // here you get your prefrences by either of two methods
         String username = prefs.getString(Value.userNamePreferenceName, "");
+
         SettingItem[] fromColumns = {
                 new SettingItem(R.drawable.ic_account_circle_black_24dp, username),
                 new SettingItem(R.drawable.ic_settings_black_24dp, "Notification Setting"),
                 new SettingItem(R.drawable.ic_exit_to_app_black_24dp,"Log Out")
         };
+
         mAdapter = new SettingArrayAdapter(this.getActivity(), R.layout.setting_list, fromColumns);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,6 +76,7 @@ public class SettingFragment extends MvpFragment<SettingView, SettingPresenter> 
                 }
             }
         });
+
         return view;
     }
     @NonNull
