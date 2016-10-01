@@ -35,7 +35,7 @@ interface ApiService {
     @POST("reservations/")
     Observable<ResponseBody> sendReservation(@Body Reservation reservation);
 
-    @POST("progress/")
+    @POST("progresses/")
     Observable<ResponseBody> sendProgress(@Body Progress progress);
 
     @Headers({

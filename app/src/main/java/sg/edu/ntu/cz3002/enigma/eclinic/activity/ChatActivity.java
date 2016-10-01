@@ -197,6 +197,9 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
             case R.id.action_add_reminder:
                 goToAddReminder();
                 return true;
+            case R.id.action_add_progress:
+                goToAddProgress();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -255,7 +258,6 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
 
     private void goToProgressList() {
         Intent intent = new Intent(this, ProgressListActivity.class);
-        // TODO: remove hardcoded doctor name
         intent.putExtra("doctor", _interlocutor);
         intent.putExtra("patient", _user);
         startActivity(intent);
@@ -263,6 +265,13 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
 
     private void goToAddReminder() {
         Intent intent = new Intent(this, AddReminderActivity.class);
+        intent.putExtra("doctor", _interlocutor);
+        intent.putExtra("patient", _user);
+        startActivity(intent);
+    }
+
+    private void goToAddProgress() {
+        Intent intent = new Intent(this, AddProgressActivity.class);
         intent.putExtra("doctor", _interlocutor);
         intent.putExtra("patient", _user);
         startActivity(intent);
