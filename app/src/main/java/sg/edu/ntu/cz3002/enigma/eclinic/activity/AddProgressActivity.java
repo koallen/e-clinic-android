@@ -71,7 +71,7 @@ public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgres
     }
 
     private void initializeToolbar() {
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_addprogress);
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_add_progress);
         setSupportActionBar(bar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Progress");
