@@ -4,8 +4,10 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +27,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.AddReminderView;
  * Created by Allen on 2016/10/1.
  */
 
-public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgressPresenter> implements AddProgressView, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgressPresenter> implements AddProgressView{
     private static final String TAG = "AddReminderActivity";
 
     @BindView(R.id.add_progress_content)
@@ -75,6 +77,16 @@ public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgres
         setSupportActionBar(bar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Progress");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -15,12 +15,12 @@
         android:titleTextColor="@color/white"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <TextView
+
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/add_progress_content"
         android:text="Progress Content"
-        android:clickable="true"
         android:padding="16dp"
         android:textSize="16sp"
         android:layout_marginTop="16dp" />
