@@ -1,5 +1,6 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
@@ -7,6 +8,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -33,9 +36,11 @@ public class DoctorListActivity extends MvpActivity<DoctorListView, DoctorListPr
     private static final String TAG = "DoctorListActivity";
 
     @BindView(R.id.doctor_list)
-    ListView listView;
+    ListView _listView;
     @BindView(R.id.doctor_swiperefresh)
     SwipeRefreshLayout _swipeRefreshLayout;
+
+    private List<Doctor> _doctorList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,22 @@ public class DoctorListActivity extends MvpActivity<DoctorListView, DoctorListPr
 
         initializeToolbar();
         initializeSwipeRefreshLayout();
+        initializeListViewListener();
+    }
+
+    private void initializeListViewListener() {
+        _listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Doctor doctor = _doctorList.get(position);
+                Intent intent = new Intent(getApplicationContext(), DoctorDetailActivity.class);
+                intent.putExtra("name", doctor.getUser());
+                intent.putExtra("clinic", doctor.getClinic());
+                intent.putExtra("gender", doctor.getGender());
+                intent.putExtra("description", doctor.getDescription());
+                startActivity(intent);
+            }
+        });
     }
 
     private void initializeSwipeRefreshLayout() {
@@ -83,7 +104,10 @@ public class DoctorListActivity extends MvpActivity<DoctorListView, DoctorListPr
     @Override
     public void showDoctorList(List<Doctor> doctorList) {
         Log.d(TAG, "displaying doctors");
+
+        this._doctorList = doctorList;
         ArrayList<HashMap<String, String>> _doctorList;
+
         _doctorList = new ArrayList<>();
         for (Doctor doctor : doctorList){
             String name = doctor.getUser();
@@ -95,7 +119,7 @@ public class DoctorListActivity extends MvpActivity<DoctorListView, DoctorListPr
         }
 
         ListAdapter adapter = new SimpleAdapter(this, _doctorList, R.layout.doctor_list, new String[]{"name", "clinic"}, new int[]{R.id.name, R.id.clinic});
-        listView.setAdapter(adapter);
+        _listView.setAdapter(adapter);
     }
 
 
