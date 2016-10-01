@@ -125,7 +125,7 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
     }
 
     private void initializeToolbar() {
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_progress_list);
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar_add_reminder);
         setSupportActionBar(bar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Reminder");
