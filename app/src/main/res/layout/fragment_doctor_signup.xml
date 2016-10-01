@@ -91,11 +91,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:onClick="onGenderRadioButtonClicked"
                     android:text="@string/gender_radio_group_male"/>
                 <RadioButton android:id="@+id/radio_female_doctor"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:onClick="onGenderRadioButtonClicked"
                     android:text="@string/gender_radio_group_female"/>
             </RadioGroup>
 

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
     @BindView(R.id.username_input_signup_doctor) TextInputEditText _usernameText;
     @BindView(R.id.password_input_signup_doctor) TextInputEditText _passwordText;
     @BindView(R.id.btn_signup_doctor) AppCompatButton _signupButton;
+
+    private boolean _male;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,20 +67,6 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
 
         String username = _usernameText.getText().toString();
         String password = _passwordText.getText().toString();
-
-//            if (name.isEmpty() || name.length() < 3) {
-//                _nameText.setError("at least 3 characters");
-//                valid = false;
-//            } else {
-//                _nameText.setError(null);
-//            }
-//
-//            if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-//                _emailText.setError("enter a valid email address");
-//                valid = false;
-//            } else {
-//                _emailText.setError(null);
-//            }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
             _passwordText.setError("between 4 and 10 alphanumeric characters");
@@ -118,6 +107,22 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
         presenter.signup(username, password);
         progressDialog.dismiss();
 
+    }
+
+    public void onGenderRadioButtonClicked(View view) {
+        Log.d(TAG, "Radio button clicked");
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.radio_male_doctor:
+                if (checked)
+                    _male = true;
+                break;
+            case R.id.radio_female_doctor:
+                if (checked)
+                    _male = false;
+                break;
+        }
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
@@ -31,9 +32,14 @@ public class PatientSignupFragment extends MvpFragment<SignupView, PatientSignup
 
     @BindView(R.id.username_input_signup_patient)
     TextInputEditText _usernameText;
-    @BindView(R.id.password_input_signup_patient) TextInputEditText _passwordText;
+    @BindView(R.id.password_input_signup_patient)
+    TextInputEditText _passwordText;
+    @BindView(R.id.age_input_signup_patient)
+    TextInputEditText _ageText;
     @BindView(R.id.btn_signup_patient)
     AppCompatButton _signupButton;
+
+    private boolean _male;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +58,22 @@ public class PatientSignupFragment extends MvpFragment<SignupView, PatientSignup
         getActivity().finish();
     }
 
+    public void onGenderRadioButtonClicked(View view) {
+        Log.d(TAG, "Radio button clicked");
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.radio_male_patient:
+                if (checked)
+                    _male = true;
+                    break;
+            case R.id.radio_female_patient:
+                if (checked)
+                    _male = false;
+                    break;
+        }
+    }
+
     @NonNull
     @Override
     public PatientSignupPresenter createPresenter() {
@@ -61,7 +83,6 @@ public class PatientSignupFragment extends MvpFragment<SignupView, PatientSignup
     public boolean validate() {
         boolean valid = true;
 
-        String username = _usernameText.getText().toString();
         String password = _passwordText.getText().toString();
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
