@@ -1,26 +1,18 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
-
-
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,16 +21,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sg.edu.ntu.cz3002.enigma.eclinic.R;
-import sg.edu.ntu.cz3002.enigma.eclinic.Value;
-import sg.edu.ntu.cz3002.enigma.eclinic.fragment.ReminderFragment;
 import sg.edu.ntu.cz3002.enigma.eclinic.model.Doctor;
-import sg.edu.ntu.cz3002.enigma.eclinic.model.Reservation;
 import sg.edu.ntu.cz3002.enigma.eclinic.presenter.DoctorListPresenter;
-import sg.edu.ntu.cz3002.enigma.eclinic.presenter.ReminderPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.DoctorListView;
 
 /**
- * Created by Allen on 2016/10/1.
+ * Doctor list activity
  */
 
 public class DoctorListActivity extends MvpActivity<DoctorListView, DoctorListPresenter> implements DoctorListView {
@@ -77,8 +65,8 @@ public class DoctorListActivity extends MvpActivity<DoctorListView, DoctorListPr
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         presenter.getDoctorList();
     }
 

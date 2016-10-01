@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToAddChat() {
-        //TODO: start the add chat activity
-        Toast.makeText(this, "Adding chat", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DoctorListActivity.class);
+        startActivity(intent);
     }
 }
