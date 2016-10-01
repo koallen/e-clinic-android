@@ -1,7 +1,6 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.activity;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
@@ -13,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,8 +57,11 @@ public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgres
     @OnClick(R.id.add_reminder_button)
     public void onAddProgressButtonClicked(View view) {
         Log.d(TAG, "Adding progress");
-        String datetime;
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String datetime = df.format(c.getTime());
         String progress = _addProgressContent.getText().toString();
+        Log.d(TAG, datetime);
         presenter.sendProgress(_doctor, _patient, progress, datetime);
     }
 
