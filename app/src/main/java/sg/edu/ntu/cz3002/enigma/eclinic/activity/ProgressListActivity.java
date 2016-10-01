@@ -54,11 +54,10 @@ public class ProgressListActivity extends MvpActivity<ProgressListView, Progress
         ButterKnife.bind(this);
 
         // get patient and doctor name
-        SharedPreferences preference = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
-        _patientName = preference.getString(Value.userNamePreferenceName, "no name");
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             _doctorName = extras.getString("doctor");
+            _patientName = extras.getString("patient");
         }
 
         // UI initialization

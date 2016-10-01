@@ -256,14 +256,15 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     private void goToProgressList() {
         Intent intent = new Intent(this, ProgressListActivity.class);
         // TODO: remove hardcoded doctor name
-        intent.putExtra("doctor", "koallen");
+        intent.putExtra("doctor", _interlocutor);
+        intent.putExtra("patient", _user);
         startActivity(intent);
     }
 
     private void goToAddReminder() {
         Intent intent = new Intent(this, AddReminderActivity.class);
-        // TODO: remove hardcoded doctor name
-        intent.putExtra("doctor", "koallen");
+        intent.putExtra("doctor", _interlocutor);
+        intent.putExtra("patient", _user);
         startActivity(intent);
     }
 }

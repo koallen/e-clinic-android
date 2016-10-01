@@ -32,6 +32,13 @@ interface ApiService {
             "Accept: application/json",
             "Content-Type: application/json"
     })
+    @POST("reservations/")
+    Observable<ResponseBody> sendReservation(@Body Reservation reservation);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
     @POST("users/")
     Observable<User> signup(@Body User user);
 
