@@ -1,7 +1,7 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
 /**
- * Created by koallen on 27/9/16.
+ * Progress
  */
 
 public class Progress {

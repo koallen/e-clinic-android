@@ -26,7 +26,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.AddProgressView;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.AddReminderView;
 
 /**
- * Created by Allen on 2016/10/1.
+ * Add progress activity
  */
 
 public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgressPresenter> implements AddProgressView{
@@ -54,7 +54,7 @@ public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgres
         initializeToolbar();
     }
 
-    @OnClick(R.id.add_reminder_button)
+    @OnClick(R.id.add_progress_button)
     public void onAddProgressButtonClicked(View view) {
         Log.d(TAG, "Adding progress");
         Calendar c = Calendar.getInstance();
@@ -67,7 +67,7 @@ public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgres
 
     @Override
     public void onProgressAddSuccess() {
-        Toast.makeText(this, "Added new reminder", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Added new progress", Toast.LENGTH_SHORT).show();
         finish();
     }
 
