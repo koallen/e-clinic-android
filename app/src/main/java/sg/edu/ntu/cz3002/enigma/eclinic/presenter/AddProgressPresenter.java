@@ -17,8 +17,8 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.AddProgressView;
 public class AddProgressPresenter extends MvpBasePresenter<AddProgressView> {
     private static final String TAG = "AddReminderP";
 
-    public void sendProgress(String doctor, String patient, String progress) {
-        Observable<ResponseBody> response = ApiManager.getInstance().sendProgress(doctor, patient, progress);
+    public void sendProgress(String doctor, String patient, String progress, String datetime) {
+        Observable<ResponseBody> response = ApiManager.getInstance().sendProgress(doctor, patient, progress, datetime);
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())

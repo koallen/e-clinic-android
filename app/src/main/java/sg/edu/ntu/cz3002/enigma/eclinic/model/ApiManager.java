@@ -47,8 +47,8 @@ public class ApiManager {
         return _apiService.sendReservation(new Reservation(doctor, patient, datetime));
     }
 
-    public Observable<ResponseBody> sendProgress(String doctor, String patient, String progress) {
-        return _apiService.sendProgress(new Progress(doctor, patient, progress));
+    public Observable<ResponseBody> sendProgress(String doctor, String patient, String progress, String datetime) {
+        return _apiService.sendProgress(new Progress(doctor, patient, progress, datetime));
     }
 
     public Observable<User> signup(String username, String password) {

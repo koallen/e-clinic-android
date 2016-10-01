@@ -11,10 +11,11 @@ public class Progress {
     private String patient;
     private String content;
 
-    public Progress(String doctor, String patient, String progress){
+    public Progress(String doctor, String patient, String progress, String datetime){
         this.doctor = doctor;
         this.patient = patient;
         this.content = progress;
+        this.datetime = datetime;
     }
 
     public String toString() {
