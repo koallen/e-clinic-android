@@ -26,7 +26,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.AddProgressView;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.AddReminderView;
 
 /**
- * Created by Allen on 2016/10/1.
+ * Add progress activity
  */
 
 public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgressPresenter> implements AddProgressView{
