@@ -43,6 +43,9 @@ public class ApiManager {
         return _apiService.getReservation(patientName);
     }
 
+    public Observable<ResponseBody> sendReservation(String doctor, String patient, String datetime) {
+        return _apiService.sendReservation(new Reservation(doctor, patient, datetime));
+    }
 
     public Observable<User> signup(String username, String password) {
         return _apiService.signup(new User(username, password));

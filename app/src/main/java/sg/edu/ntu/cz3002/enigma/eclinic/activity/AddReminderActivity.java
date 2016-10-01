@@ -17,6 +17,10 @@ import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,11 +43,20 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
     @BindView(R.id.add_reminder_time)
     TextView _timeTextView;
 
+    private String _doctor;
+    private String _patient;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addreminder);
         ButterKnife.bind(this);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            _doctor = bundle.getString("doctor");
+            _patient = bundle.getString("patient");
+        }
 
         // UI initialization
         initializeToolbar();
@@ -52,8 +65,8 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
     @OnClick(R.id.add_reminder_button)
     public void onAddReminderButtonClicked(View view) {
         Log.d(TAG, "Adding reminder");
-        //TODO: implement add reminder logic (call presenter)
-        Toast.makeText(this, "Added new reminder", Toast.LENGTH_SHORT).show();
+        String datetime = _dateTextView.getText().toString() + " " + _timeTextView.getText().toString();
+        presenter.sendReservation(_doctor, _patient, datetime);
     }
 
     @OnClick(R.id.add_reminder_date)
@@ -78,6 +91,7 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
 
     @Override
     public void onReminderAddSuccess() {
+        Toast.makeText(this, "Added new reminder", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -93,7 +107,16 @@ public class AddReminderActivity extends MvpActivity<AddReminderView, AddReminde
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        _dateTextView.setText(dayOfMonth + " " + month + " " + year);
+        Log.d(TAG, "setting new date: " + year + " " + (month + 1) + " " + dayOfMonth);
+        SimpleDateFormat simpleDateFormatOldFormat = new SimpleDateFormat("yyyy-M-d");
+        SimpleDateFormat simpleDateFormatNewFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String oldFormatDateTime = year + "-" + (month + 1) + "-" + dayOfMonth;
+        Date date;
+        try {
+            date = simpleDateFormatOldFormat.parse(oldFormatDateTime);
+            String newFormatDateTime = simpleDateFormatNewFormat.format(date);
+            _dateTextView.setText(newFormatDateTime);
+        } catch (ParseException e) { }
     }
 
     @Override

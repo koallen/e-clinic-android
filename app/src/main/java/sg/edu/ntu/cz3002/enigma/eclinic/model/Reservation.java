@@ -10,6 +10,12 @@ public class Reservation {
     private String doctor;
     private String patient;
 
+    public Reservation(String doctor, String patient, String datetime) {
+        this.doctor = doctor;
+        this.patient = patient;
+        this.datetime = datetime;
+    }
+
     public int getId()
     {
         return this.id;
