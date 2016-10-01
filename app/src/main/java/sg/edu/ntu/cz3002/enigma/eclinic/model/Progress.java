@@ -11,6 +11,12 @@ public class Progress {
     private String patient;
     private String content;
 
+    public Progress(String doctor, String patient, String progress){
+        this.doctor = doctor;
+        this.patient = patient;
+        this.content = progress;
+    }
+
     public String toString() {
         return id + " " + doctor + " " + patient + " " + content;
     }
