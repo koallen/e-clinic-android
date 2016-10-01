@@ -27,7 +27,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.presenter.SignupPresenter;
 import sg.edu.ntu.cz3002.enigma.eclinic.view.SignupView;
 
 /**
- * Created by koallen on 24/9/16.
+ * Doctor signup fragment
  */
 public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPresenter> implements SignupView {
 
@@ -35,9 +35,11 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
 
     @BindView(R.id.username_input_signup_doctor) TextInputEditText _usernameText;
     @BindView(R.id.password_input_signup_doctor) TextInputEditText _passwordText;
+    @BindView(R.id.clinic_input_signup_doctor) TextInputEditText _clinicText;
+    @BindView(R.id.description_input_signup_doctor) TextInputEditText _descriptionText;
     @BindView(R.id.btn_signup_doctor) AppCompatButton _signupButton;
 
-    private boolean _male;
+    private String _gender;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,19 +65,15 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
     }
 
     public boolean validate() {
-        boolean valid = true;
-
-        String username = _usernameText.getText().toString();
         String password = _passwordText.getText().toString();
 
+        // validate password
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
-            valid = false;
-        } else {
-            _passwordText.setError(null);
+            Toast.makeText(getActivity(), "between 4 and 10 alphanumeric characters", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
-        return valid;
+        return true;
     }
 
     public void onSignupFailed() {
@@ -101,12 +99,12 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
 
         String username = _usernameText.getText().toString();
         String password = _passwordText.getText().toString();
+        String gender = _gender;
+        String clinic = _clinicText.getText().toString();
+        String description = _descriptionText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
-
-        presenter.signup(username, password);
+        presenter.signup(username, password, gender, clinic, description);
         progressDialog.dismiss();
-
     }
 
     public void onGenderRadioButtonClicked(View view) {
@@ -116,11 +114,11 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
         switch(view.getId()) {
             case R.id.radio_male_doctor:
                 if (checked)
-                    _male = true;
+                    _gender = "M";
                 break;
             case R.id.radio_female_doctor:
                 if (checked)
-                    _male = false;
+                    _gender = "F";
                 break;
         }
     }
@@ -134,6 +132,7 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
     @Override
     public void showError(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        _signupButton.setEnabled(false);
     }
 
     @Override

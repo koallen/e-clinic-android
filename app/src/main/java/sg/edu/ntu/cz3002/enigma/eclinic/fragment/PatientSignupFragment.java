@@ -66,11 +66,11 @@ public class PatientSignupFragment extends MvpFragment<SignupView, PatientSignup
             case R.id.radio_male_patient:
                 if (checked)
                     _gender = "M";
-                    break;
+                break;
             case R.id.radio_female_patient:
                 if (checked)
                     _gender = "F";
-                    break;
+                break;
         }
     }
 

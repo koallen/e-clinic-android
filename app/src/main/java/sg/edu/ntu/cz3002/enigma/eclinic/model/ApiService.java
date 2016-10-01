@@ -70,4 +70,11 @@ interface ApiService {
     })
     @POST("patients/")
     Observable<Patient> registerAsPatient(@Body Patient patient);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("doctors/")
+    Observable<Doctor> registerAsDoctor(@Body Doctor doctor);
 }

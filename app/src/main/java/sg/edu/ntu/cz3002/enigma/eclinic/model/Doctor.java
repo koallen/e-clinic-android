@@ -1,12 +1,18 @@
 package sg.edu.ntu.cz3002.enigma.eclinic.model;
 
 /**
- * Created by koallen on 24/9/16.
+ * Doctor model
  */
 public class Doctor {
-    private int id;
     private String clinic;
     private String gender;
     private String description;
     private String user;
+
+    public Doctor(String user, String gender, String clinic, String description) {
+        this.user = user;
+        this.gender = gender;
+        this.clinic = clinic;
+        this.description = description;
+    }
 }

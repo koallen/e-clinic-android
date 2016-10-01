@@ -67,4 +67,8 @@ public class ApiManager {
     public Observable<Patient> registerAsPatient(String username, String gender, int age) {
         return _apiService.registerAsPatient(new Patient(username, gender, age));
     }
+
+    public Observable<Doctor> registerAsDoctor(String username, String gender, String clinic, String description) {
+        return _apiService.registerAsDoctor(new Doctor(username, gender, clinic, description));
+    }
 }
