@@ -30,7 +30,7 @@ import sg.edu.ntu.cz3002.enigma.eclinic.view.AddReminderView;
  */
 
 public class AddProgressActivity extends MvpActivity<AddProgressView, AddProgressPresenter> implements AddProgressView{
-    private static final String TAG = "AddReminderActivity";
+    private static final String TAG = "AddProgressActivity";
 
     @BindView(R.id.add_progress_content)
     TextView _addProgressContent;
