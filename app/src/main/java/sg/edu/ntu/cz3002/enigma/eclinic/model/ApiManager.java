@@ -63,4 +63,8 @@ public class ApiManager {
     public Observable<List<Progress>> getProgress(String patientName, String doctorName) {
         return _apiService.getProgress(patientName, doctorName);
     }
+
+    public Observable<Patient> registerAsPatient(String username, String gender, int age) {
+        return _apiService.registerAsPatient(new Patient(username, gender, age));
+    }
 }

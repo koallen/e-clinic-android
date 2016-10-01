@@ -63,4 +63,11 @@ interface ApiService {
     })
     @GET("progresses/")
     Observable<List<Progress>> getProgress(@Query("patient") String patientName, @Query("doctor") String doctorName);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("patients/")
+    Observable<Patient> registerAsPatient(@Body Patient patient);
 }

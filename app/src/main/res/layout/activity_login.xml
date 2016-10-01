@@ -12,12 +12,6 @@
         android:paddingRight="24dp"
         android:paddingTop="56dp">
 
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="72dp"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginBottom="24dp" />-->
-
         <!-- Username Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -30,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/username_input_label"
-                android:inputType="textEmailAddress" />
+                android:inputType="textCapWords" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->

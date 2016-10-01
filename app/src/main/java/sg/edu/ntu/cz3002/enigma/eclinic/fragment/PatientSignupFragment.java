@@ -39,7 +39,7 @@ public class PatientSignupFragment extends MvpFragment<SignupView, PatientSignup
     @BindView(R.id.btn_signup_patient)
     AppCompatButton _signupButton;
 
-    private boolean _male;
+    private String _gender;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,11 +65,11 @@ public class PatientSignupFragment extends MvpFragment<SignupView, PatientSignup
         switch(view.getId()) {
             case R.id.radio_male_patient:
                 if (checked)
-                    _male = true;
+                    _gender = "M";
                     break;
             case R.id.radio_female_patient:
                 if (checked)
-                    _male = false;
+                    _gender = "F";
                     break;
         }
     }
@@ -81,23 +81,38 @@ public class PatientSignupFragment extends MvpFragment<SignupView, PatientSignup
     }
 
     public boolean validate() {
-        boolean valid = true;
-
         String password = _passwordText.getText().toString();
+        int age;
 
+        // validate password
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
-            valid = false;
-        } else {
-            _passwordText.setError(null);
+            Toast.makeText(getActivity(), "between 4 and 10 alphanumeric characters", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
-        return valid;
+        // validate age
+        try {
+            age = Integer.parseInt(_ageText.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(getActivity(), "please input your age", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (age < 1 && age > 200) {
+            Toast.makeText(getActivity(), "age should be between 1 and 200", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // validate gender
+        if (_gender == null) {
+            Toast.makeText(getActivity(), "gender not selected", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getActivity(), "Login failed", Toast.LENGTH_LONG).show();
-
         _signupButton.setEnabled(true);
     }
 
@@ -118,10 +133,10 @@ public class PatientSignupFragment extends MvpFragment<SignupView, PatientSignup
 
         String username = _usernameText.getText().toString();
         String password = _passwordText.getText().toString();
+        String gender = _gender;
+        int age = Integer.parseInt(_ageText.getText().toString());
 
-        // TODO: Implement your own signup logic here.
-
-        presenter.signup(username, password);
+        presenter.signup(username, password, gender, age);
         progressDialog.dismiss();
 
     }
@@ -135,6 +150,7 @@ public class PatientSignupFragment extends MvpFragment<SignupView, PatientSignup
     @Override
     public void showError(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        _signupButton.setEnabled(true);
     }
 
     @Override
