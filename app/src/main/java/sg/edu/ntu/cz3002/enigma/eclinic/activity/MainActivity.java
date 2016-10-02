@@ -32,17 +32,18 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     @BindView(R.id.bottomBar) BottomBar _bottombar;
-    ReminderFragment _reminderFragment;
-    ChatFragment _chatFragment;
-    SettingFragment _settingFragment;
+    private ReminderFragment _reminderFragment;
+    private ChatFragment _chatFragment;
+    private SettingFragment _settingFragment;
+    private SharedPreferences _preferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // check whether user logged in
-        SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
-        if (preferences.contains(Value.authTokenPreferenceName)) {
+        _preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+        if (_preferences.contains(Value.authTokenPreferenceName)) {
             // continue on MainActivity
             Log.d(TAG, "Auth token exists");
             setContentView(R.layout.activity_main);
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (_preferences.getString(Value.userTypePreferenceName, "baduser").equals("doctor")) {
+            return false;
+        }
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.chat_list_menu, menu);
         return true;

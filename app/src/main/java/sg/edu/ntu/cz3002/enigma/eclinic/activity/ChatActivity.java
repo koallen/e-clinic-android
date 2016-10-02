@@ -56,6 +56,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     private String _user;
     private static DbHelper _dbHelper;
     private SimpleDateFormat _simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private SharedPreferences _preferences;
 
     @BindView(R.id.messageEditText)
     EditText _enterText;
@@ -71,6 +72,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
         ButterKnife.bind(this);
 
         // set some variables
+        _preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
         setUserAndInterlocutor();
         _dbHelper = new DbHelper(this);
 
@@ -181,6 +183,13 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.chat_menu, menu);
+        if (_preferences.getString(Value.userTypePreferenceName, "baduser").equals("doctor")) {
+            MenuItem item = menu.findItem(R.id.action_add_reminder);
+            item.setVisible(false);
+        } else {
+            MenuItem item = menu.findItem(R.id.action_add_progress);
+            item.setVisible(false);
+        }
         return true;
     }
 
@@ -249,8 +258,7 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
     }
 
     private void setUserAndInterlocutor() {
-        SharedPreferences preferences = this.getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
-        _user = preferences.getString(Value.userNamePreferenceName, "no name");
+        _user = _preferences.getString(Value.userNamePreferenceName, "no name");
 
         Intent intent = getIntent();
         _interlocutor = intent.getStringExtra("sender");
@@ -258,8 +266,13 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
 
     private void goToProgressList() {
         Intent intent = new Intent(this, ProgressListActivity.class);
-        intent.putExtra("doctor", _interlocutor);
-        intent.putExtra("patient", _user);
+        if (_preferences.getString(Value.userTypePreferenceName, "baduser").equals("doctor")) {
+            intent.putExtra("doctor", _user);
+            intent.putExtra("patient", _interlocutor);
+        } else {
+            intent.putExtra("doctor", _interlocutor);
+            intent.putExtra("patient", _user);
+        }
         startActivity(intent);
     }
 
@@ -272,8 +285,8 @@ public class ChatActivity extends MvpActivity<ChatView, ChatPresenter> implement
 
     private void goToAddProgress() {
         Intent intent = new Intent(this, AddProgressActivity.class);
-        intent.putExtra("doctor", _interlocutor);
-        intent.putExtra("patient", _user);
+        intent.putExtra("doctor", _user);
+        intent.putExtra("patient", _interlocutor);
         startActivity(intent);
     }
 }

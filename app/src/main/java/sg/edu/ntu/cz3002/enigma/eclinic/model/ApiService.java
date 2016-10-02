@@ -26,7 +26,7 @@ interface ApiService {
             "Content-Type: application/json"
     })
     @GET("reservations/")
-    Observable<List<Reservation>> getReservation(@Query("patient") String patientName);
+    Observable<List<Reservation>> getReservation(@Query("user") String patientName);
 
     @GET("doctors/")
     Observable<List<Doctor>> getDoctorList();
