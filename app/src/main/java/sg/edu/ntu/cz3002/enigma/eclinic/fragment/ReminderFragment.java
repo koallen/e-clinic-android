@@ -36,6 +36,7 @@ public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresente
 
     private static final String TAG = "ReminderFragment";
     private String _patientName;
+    private SharedPreferences _preferences;
 
     @BindView(R.id.reminders_swiperefresh) SwipeRefreshLayout _swipeRefreshLayout;
     @BindView(R.id.reminder_list) ListView listView;
@@ -45,8 +46,8 @@ public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresente
         View view = inflater.inflate(R.layout.fragment_reminder, container, false);
         ButterKnife.bind(this, view);
 
-        SharedPreferences preference = this.getActivity().getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
-        _patientName = preference.getString(Value.userNamePreferenceName, "no name");
+        _preferences = this.getActivity().getSharedPreferences(Value.preferenceFilename, Context.MODE_PRIVATE);
+        _patientName = _preferences.getString(Value.userNamePreferenceName, "no name");
 
         _swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -95,11 +96,13 @@ public class ReminderFragment extends MvpFragment<ReminderView, ReminderPresente
         ArrayList<HashMap<String, String>> reservationsList;
         reservationsList = new ArrayList<>();
         for (Reservation r : reservations){
-//            Log.d(TAG, "begin loop");
-            String name = r.getDoctor();
+            String name;
+            if (_preferences.getString(Value.userTypePreferenceName, "baduser").equals("doctor")) {
+                name = r.getPatient();
+            } else {
+                name = r.getDoctor();
+            }
             String datetime = r.getDateTime();
-//            Log.d(TAG, name);
-//            Log.d(TAG, datetime);
             HashMap<String, String> res = new HashMap<>();
             res.put("name", name);
             res.put("datetime", datetime);
