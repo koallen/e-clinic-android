@@ -132,7 +132,7 @@ public class DoctorSignupFragment extends MvpFragment<SignupView, DoctorSignupPr
     @Override
     public void showError(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-        _signupButton.setEnabled(false);
+        _signupButton.setEnabled(true);
     }
 
     @Override
